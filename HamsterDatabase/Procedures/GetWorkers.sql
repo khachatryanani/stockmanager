@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[GetWorkers]
+AS
+	SELECT *
+	FROM Workers
+RETURN 0

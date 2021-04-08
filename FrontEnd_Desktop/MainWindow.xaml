@@ -1,0 +1,75 @@
+﻿<Window x:Name="HamsterMainWindow" x:Class="FrontEnd_Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontEnd_Desktop"
+        mc:Ignorable="d"
+        Title="Hamster Stock Manager" Width="1200" Height="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Background="Black">
+
+    <Grid x:Name="HamsterMainGrid" Background="White" MouseDown="HamsterMainGrid_MouseDown">
+        <Grid x:Name="TransactionsGrid" Visibility="Visible" >
+            <TabControl x:Name="TransactionsTab" HorizontalAlignment="Left"  VerticalAlignment="Top"  Background="White"  BorderThickness="1" Width="900" Margin="250,30,0,0" >
+                <!--View Stock or Create New Stock Item-->
+                <TabItem x:Name="InStockTab" Header="InStock" Width="300" Height="50"  Background="#38C2CF">
+                    <Grid Height="640"  Background="White" >
+                        <Button x:Name="CreateNewStockItemBtn" Height="35" Background="#38CF91" Margin="599,50,50,555" Click="CreateNewStockItemBtn_Click">Create New Stock Item</Button>
+                        <Button x:Name="ViewStockItemsBtn" Background="#38CF91"  Height="35" Margin="599,90,50,515" Click="ViewStockItemsBtn_Click">View InStock Items</Button>
+                        <Button x:Name="ViewStockItemDetailsBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,130,50,475" Click="ViewStockItemDetailsBtn_Click" >View Details</Button>
+
+                        <DataGrid x:Name="InStockDataGrid" Margin="50,50,300,350" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Background="White" Height="Auto" Width="Auto" SelectionChanged="InStockDataGrid_SelectionChanged" IsReadOnly="True"></DataGrid>
+                        <DataGrid x:Name="InStockItemDetailDataGrid" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Visibility="Hidden" Margin="50,350,50,50" Background="White" Height="Auto" Width="Auto" SelectionChanged="InStockDataGrid_SelectionChanged" IsReadOnly="True"></DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!--View Orders or Create New Order-->
+                <TabItem x:Name="OrdersTab" Header="Orders" Width="300" Height="50" Background="#38C2CF">
+                    <Grid Height="640"  Background="White" >
+                        <Button x:Name="CreateNewOrderBtn"  Height="35" Background="#38CF91" Margin="599,50,50,555" Click="CreateNewOrderBtn_Click">Create New Order</Button>
+                        <Button x:Name="ViewOrdersBtn" Background="#38CF91"  Height="35" Margin="599,90,50,515" Click="ViewOrdersBtn_Click">View Orders</Button>
+                        <Button x:Name="ViewOrderDetailsBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,130,50,475" Click="ViewOrderDetailsBtn_Click" >View Details</Button>
+                        <Button x:Name="AcceptOrderBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,170,50,435" Click="AcceptOrderBtn_Click">Accept Order</Button>
+
+                        <DataGrid x:Name="OrdersDataGrid" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Margin="50,50,300,350" Background="White" Height="Auto" Width="Auto" SelectionChanged="OrdersDataGrid_SelectionChanged" IsReadOnly="True"></DataGrid>
+                        <DataGrid x:Name="OrderDetailDataGrid" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Visibility="Hidden" Margin="50,350,50,50" Background="White" Height="Auto" Width="Auto" SelectionChanged="InStockDataGrid_SelectionChanged" IsReadOnly="True"></DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!--View Delivery-Ready or Delivered Orders-->
+                <TabItem x:Name="DeliveryTab" Header="Delivery" Height="50" Background="#38C2CF" Width="295">
+                    <Grid Height="640"  Background="White" >
+                        <Button x:Name="ViewDeliveryReadyOrdersBtn" Height="35" Background="#38CF91" Margin="599,50,50,555" Click="ViewDeliveryReadyOrdersBtn_Click">View Delivery-Ready Orders</Button>
+                        <Button x:Name="ViewDeliveryReadyOrderDetailsBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,90,50,515" >View Details</Button>
+                        <Button x:Name="ApproveDeliveryBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,130,50,475" Click="ApproveDeliveryBtn_Click">Approve Delivery</Button>
+
+                        <DataGrid x:Name="DeliveryReadyOrdersDataGrid" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Margin="50,50,300,360" Background="White" Height="Auto" Width="Auto" SelectionChanged="DeliveryReadyDataGrid_SelectionChanged"  IsReadOnly="True"></DataGrid>
+
+                        <Button x:Name="ViewDeliveredOrdersBtn" Background="#38CF91"  Height="35" Margin="599,306,50,299" Click="ViewDeliveredOrdersBtn_Click">View Delivered Orders</Button>
+                        <Button x:Name="ViewDeliveredOrderDetailsBtn" IsEnabled="false" Background="#38CF91" Height="35" Margin="599,346,50,259">View Details</Button>
+
+                        <DataGrid x:Name="DeliveredOrdersDataGrid" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Visibility="Visible" Margin="50,306,300,92" Background="White" Height="Auto" Width="Auto" SelectionChanged="InStockDataGrid_SelectionChanged" IsReadOnly="True"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            
+            
+        </Grid>
+        <Menu  Height="698" Margin="20,30,0,0" VerticalAlignment="Top" Width="180" Background="#38C2CF"  HorizontalAlignment="Left" HorizontalContentAlignment="Center">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Name="TransactionsMenu"  Height="100" Width="180" Header="      Transactions" HorizontalAlignment="Center" Foreground="White" HorizontalContentAlignment="Center" Click="TransactionsMenu_Click"  FontSize="20">
+            </MenuItem>
+            <MenuItem  Name="ProductsMenu" Height="100" Width="180" Header="        Products" HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20">
+                <MenuItem  Height="20" Header="New"></MenuItem>
+            </MenuItem>
+            <MenuItem  Header="       Customers"  Height="100" Width="180" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="20">
+
+            </MenuItem>
+            <MenuItem  Height="100" Header="       Employees" Width="180" HorizontalAlignment="Center" FontSize="20"></MenuItem>
+
+        </Menu>
+    </Grid>
+</Window>
