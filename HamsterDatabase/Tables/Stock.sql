@@ -9,7 +9,7 @@
 	UnitPrice MONEY NOT NULL,
 	WorkerId INT NOT NULL,
 	CONSTRAINT PK_ProductionId PRIMARY KEY (StockId),
-	CONSTRAINT UK_ProductionId UNIQUE (ProductId, ProductionDate),
+	--CONSTRAINT UK_ProductionId UNIQUE (ProductId, ProductionDate),
 	CONSTRAINT FK_ProductId FOREIGN KEY (ProductId) REFERENCES Products(ProductId) ON UPDATE CASCADE,
 	CONSTRAINT FK_WorkerId FOREIGN KEY (WorkerId) REFERENCES Workers(WorkerId),
 	CONSTRAINT CH_Quantity CHECK (ProducedQuantity > 0),

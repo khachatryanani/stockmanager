@@ -8,16 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using DataAccess;
-using System.Configuration;
-using System.ComponentModel;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace FrontEnd_Desktop
+namespace DesktopDesign
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -25,10 +22,10 @@ namespace FrontEnd_Desktop
     {
         public MainWindow()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
-        private void Exit_MouseDown(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

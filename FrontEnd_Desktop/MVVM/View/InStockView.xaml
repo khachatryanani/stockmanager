@@ -1,0 +1,259 @@
+﻿<UserControl x:Class="FrontEnd_Desktop.MVVM.View.InStockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FrontEnd_Desktop.MVVM.View"
+             mc:Ignorable="d" 
+            d:DesignHeight="600" d:DesignWidth="720">
+    <Grid Background="#F0F0F0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="InStockListView" HorizontalAlignment="Center" 
+                  Height="Auto"
+                  MaxHeight="450"
+                  Width="Auto"
+                  Margin="0,120,0,0" 
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Grid.RowSpan="2"
+                  VerticalAlignment="Top" 
+                  BorderThickness="0"
+                  Background="Transparent"
+                  ItemContainerStyle="{StaticResource ListViewTheme}">
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="100" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="100"/>
+                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="100"/>
+                    <GridViewColumn Header="Unit Price" DisplayMemberBinding="{Binding UnitPrice}" Width="100"/>
+                    <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding MeasurementUnit}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="CreateNewItemBtn" 
+                Content="Add New Item" 
+                HorizontalAlignment="Left" 
+                Margin="50,65,0,0" VerticalAlignment="Top" 
+                Width="100" 
+                Height="30"
+                Foreground="White"
+                Background="#FF4C00"
+                Click="AddNewItemBtn_Click"/>
+        <Button Name="ViewDetailsBtn" 
+                Content="View Details"
+                HorizontalAlignment="Left" 
+                Margin="170,65,0,0" VerticalAlignment="Top" 
+                Width="100" 
+                Height="30"
+                Foreground="White"
+                Background="#242E38"
+                Click="ViewDetailsBtn_Click"/>
+        <Border Name="CreateNewItemSection"
+                Background="#F3F0F0"
+                Grid.Column="1"
+                Grid.RowSpan="2"
+                Visibility="Hidden">
+            <Border.Effect>
+                <DropShadowEffect Direction="180" 
+                                  ShadowDepth="4"
+                                  Color="Black"
+                                 Opacity="0.6"
+                                 BlurRadius="10"/>
+            </Border.Effect>
+            <Grid>
+                <Image Source="/MVVM/View/Close.png" Margin="10,10,217,566" MouseDown="Image_MouseDown"/>
+                <Label Content="Product" FontSize="11" 
+                       HorizontalAlignment="Left" 
+                       Margin="25,99,0,0" 
+                       VerticalAlignment="Top" 
+                       Width="80" 
+                       Height="22"
+                       Foreground="#242E38"/>
+                <Label Content="Quantity" 
+                       Foreground="#242E38" 
+                       FontSize="11" 
+                       HorizontalAlignment="Left" 
+                       Margin="25,164,0,0" 
+                       VerticalAlignment="Top" 
+                       Width="80" Height="27"/>
+                <Label Content="Production Date" 
+                       Foreground="#242E38" 
+                       FontSize="11" 
+                       HorizontalAlignment="Left" 
+                       Margin="25,296,0,0" 
+                       VerticalAlignment="Top" 
+                       Width="99" Height="24"/>
+                <Label Content="Record Created By" 
+                       Foreground="#242E38" 
+                       FontSize="11" 
+                       HorizontalAlignment="Left" 
+                       Margin="25,359,0,0" 
+                       VerticalAlignment="Top" 
+                       Width="108" Height="28"/>
+                <ComboBox x:Name="ProductsCombo" 
+                          Height="30" 
+                          HorizontalAlignment="Center"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          Margin="0,121,0,0" 
+                          VerticalAlignment="Top" Width="200" />
+                <ComboBox x:Name="WorkersCombo" 
+                          Height="30" 
+                          HorizontalAlignment="Center" 
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          Margin="0,387,0,0" 
+                          VerticalAlignment="Top" Width="200"/>
+                <TextBox x:Name="QuantityTextBox" 
+                         HorizontalAlignment="Center" 
+                         FontSize="12" 
+                         TextAlignment="Right"
+                         VerticalContentAlignment="Center"
+                         Height="30" Margin="0,191,0,0" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Top" 
+                         Width="200"/>
+                <Label  Content="Unit Price" 
+                        Foreground="#242E38" 
+                        FontSize="12" 
+                        HorizontalAlignment="Left" 
+                        Margin="25,234,0,0" 
+                        VerticalAlignment="Top"
+                        Width="92" Height="22"/>
+                <TextBox x:Name="UnitPriceTextBox" 
+                         HorizontalAlignment="Center" 
+                         FontSize="12" TextAlignment="Right" 
+                         Height="30" Margin="0,255,0,0" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Top" 
+                         HorizontalContentAlignment="Right"
+                         VerticalContentAlignment="Center"
+                         Width="200"/>
+                <DatePicker x:Name="ProductionDatePicker" 
+                            VerticalContentAlignment="Center" 
+                            Height="30" FontSize ="12"  
+                            HorizontalAlignment="Center" 
+                            Margin="0,320,0,0" 
+                            VerticalAlignment="Top" 
+                            Width="200"/>
+                <Button x:Name="SubmitBtn" Background="#8BAB42" 
+                        Content="Add New Item" 
+                        Foreground="White"
+                        HorizontalAlignment="Center" 
+                        Height="30" Margin="0,490,0,0" 
+                        VerticalAlignment="Top" Width="200"
+                        Click="SubmitBtn_Click"/>
+                <Button x:Name="CancelBtn" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Content="Cancel" 
+                        HorizontalAlignment="Left" 
+                        Height="30" Margin="73,525,0,0" 
+                        VerticalAlignment="Top" Width="100"
+                        Click="CancelBtn_Click"/>
+                <Label Content="Adding New Item" 
+                       FontSize="18" HorizontalAlignment="Center" 
+                       Margin="0,41,0,0" VerticalAlignment="Top" 
+                       Width="158" Height="36"
+                       Foreground="#FF4C00"
+                       FontWeight="Bold"/>
+            </Grid>
+        </Border>
+        <Border x:Name="ViewItemDetailsSection"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Background="#F3F0F0"
+                Visibility="Hidden">
+            <Border.Effect>
+                <DropShadowEffect Direction="900" 
+                                  ShadowDepth="4"
+                                  Color="Black"
+                                 Opacity="0.6"
+                                 BlurRadius="10"/>
+            </Border.Effect>
+            <Grid>
+                <Image Source="/MVVM/View/Close.png"  MouseDown="Image_MouseDown" 
+                       Margin="675,10,-1,215" >
+
+                </Image>
+                <Label Content="Stocked Item Info" 
+                       Margin="10,10,0,0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       FontSize="18" 
+                       Width="166" Height="36"
+                       Foreground="#FF4C00"
+                       FontWeight="Bold"></Label>
+                <ListView x:Name="InStockItemDetailsListView" HorizontalAlignment="Left" 
+                  Height="200"
+                  MaxHeight="450"
+                  Width="Auto"
+                  Margin="190,40,0,0"
+                  VerticalAlignment="Top" 
+                  BorderThickness="0"
+                  Background="Transparent"
+                  ItemContainerStyle="{StaticResource ListViewTheme}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="Unit Price" DisplayMemberBinding="{Binding UnitPrice}" Width="80"/>
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="80"/>
+                            <GridViewColumn Header="Stocked On" DisplayMemberBinding="{Binding StockedDate}" Width="80"/>
+                            <GridViewColumn Header="Produced On" DisplayMemberBinding="{Binding ProductionDate}" Width="80"/>
+                            <GridViewColumn Header="Expires On" DisplayMemberBinding="{Binding ExpirationDate}" Width="80"/>
+                            <GridViewColumn Header="Added By" DisplayMemberBinding="{Binding WorkerName}" Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label Name="ProductNameLabel" Content="*ProductName*" 
+                    Margin="78,79,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Name="ProductTypeLabel" Content="*ProductType*" 
+                    Margin="78,110,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Name="ProductMUnitLabel" Content="*ProductMeasurementUnit*" 
+                    Margin="78,141,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label x:Name="ProductIdLabel" Content="*ProductId*" 
+                    Margin="78,48,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Content="Product Id" 
+                    Margin="10,48,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+                <Label Content="Name"  
+                    Margin="10,79,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+                <Label Content="Type" 
+                    Margin="10,110,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+                <Label Content="Unit" 
+                    Margin="10,141,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+

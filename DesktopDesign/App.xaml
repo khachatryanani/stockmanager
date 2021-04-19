@@ -1,9 +1,9 @@
-﻿<Application x:Class="FrontEnd_Desktop.App"
+﻿<Application x:Class="DesktopDesign.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:FrontEnd_Desktop"
-             xmlns:viewModel="clr-namespace:FrontEnd_Desktop.MVVM.ViewModel"   
-             xmlns:view ="clr-namespace:FrontEnd_Desktop.MVVM.View"
+             xmlns:local="clr-namespace:DesktopDesign"
+             xmlns:viewModel="clr-namespace:DesktopDesign.MVVM.ViewModel"   
+             xmlns:view ="clr-namespace:DesktopDesign.MVVM.View"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -17,11 +17,10 @@
             <DataTemplate DataType="{x:Type viewModel:InStockViewModel}">
                 <view:InStockView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:OrderViewModel}">
-                <view:OrderView/>
+            <DataTemplate DataType="{x:Type viewModel:ProductsViewModel}">
+                <view:ProductsView/>
             </DataTemplate>
-        
-
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
