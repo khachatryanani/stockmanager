@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DataAccess;
 
-namespace DataAccess
+namespace FrontEnd_Desktop.MVVM.Model
 {
-    public class OrderItem
+    public class OrderItemDTO
     {
         public int OrderId { get; set; }
-        public Product OrderedProduct { get; set; }
+        public ProductDTO OrderedProduct { get; set; }
         public int Quantity { get; set; }
         public string OrderItemStatus { get; set; }
     }

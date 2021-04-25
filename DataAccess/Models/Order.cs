@@ -7,15 +7,15 @@ namespace DataAccess
     public class Order
     {
         public int OrderId { get; set; }
-        public int CustomerId { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerAddress { get; set; }
+        public Customer Customer { get; set; }
         public double TotalPrice { get; set; }
         public DateTime ReceivedDate { get; set; }
-        public string ReceivedBy { get; set; }
+        public Worker Receiver { get; set; }
         public string Status { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public string DeliveredBy { get; set; }
-        public List<Product> ProductList { get; set; }
+
+        public Worker Deliverer { get; set; }
+
+        public List<OrderItem> OrderItemList { get; set; }
     }
 }

@@ -6,24 +6,30 @@
         xmlns:local="clr-namespace:FrontEnd_Desktop"
         mc:Ignorable="d"
         Title="MessageWindow" 
-        Height="100" 
-        Width="200" 
+        Height="50" 
+        Width="300" 
         WindowStyle="None" 
         Background="Transparent" 
+        BorderThickness="0"
+        BorderBrush="Transparent"
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen">
     <Border Background="#242E38" 
-            CornerRadius="10" >
-        <Grid>
+             Height="50" 
+             Width="300"
+            BorderThickness="0"
+            BorderBrush="Transparent">
+        <Grid Background="Transparent" >
             <Image Source="/Close.png" 
-                   Margin="152,38,22,38" 
+                   Margin="251,14,2,14" 
                    MouseDown="Image_MouseDown"/>
-            <Label Content="Success!" 
+            <Label Content="Action completed successfuly!" 
                    Foreground="#FF4C00" 
-                   FontSize="25" 
-                   VerticalAlignment="Top" 
+                   FontSize="18" 
+                   VerticalAlignment="Center" 
                    HorizontalAlignment="Left" 
-                   Margin="20,25,0,0"></Label>
+                   VerticalContentAlignment="Center"
+                   Margin="10,0,0,0" Height="50" Width="249"></Label>
         </Grid>
     </Border>
 </Window>

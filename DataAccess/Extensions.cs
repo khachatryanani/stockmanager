@@ -7,7 +7,7 @@ namespace DataAccess
 {
     public static class Extensions
     {
-        public static DataTable ConvertToProductsDataTable(this List<Product> list) 
+        public static DataTable ConvertToProductsDataTable(this List<OrderItem> list) 
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("productId");
@@ -15,7 +15,7 @@ namespace DataAccess
             foreach (var item in list)
             {
                 DataRow row = dt.NewRow();
-                row["productId"] = item.ProductId;
+                row["productId"] = item.OrderedProduct.ProductId;
                 row["quantity"] = item.Quantity;
                 dt.Rows.Add(row);
             }

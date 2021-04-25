@@ -8,11 +8,11 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
     {
         private object _currentView;
 
-        public static readonly DataRepository dataRepository = new DataRepository(ConfigurationManager.ConnectionStrings["SmarterASP"].ConnectionString);
+        private readonly DataRep _dataRepository = new DataRep(ConfigurationManager.ConnectionStrings["SmarterASP"].ConnectionString);
         public RelayCommand InStockViewCommand { get; set; }
         public RelayCommand OrderViewCommand { get; set; }
 
-        public InStockViewModel InStockVM { get; set; }
+        public StockViewModel InStockVM { get; set; }
         public OrderViewModel OrderVM { get; set; }
 
         public object CurrentView
@@ -30,7 +30,7 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
 
         public MainViewModel()
         {
-            InStockVM = new InStockViewModel();
+            InStockVM = new StockViewModel();
             OrderVM = new OrderViewModel();
 
             CurrentView = InStockVM;

@@ -6,16 +6,12 @@ namespace DataAccess
 {
     public class StockItem
     {
-        public int ProductId { get; set; }
+        public Product StockedProduct { get; set; }
+        public int Quantity { get; set; }
+        public DateTime ProductionDate { get; set; }
+        public DateTime StockedDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
-        public string ProductName { get; set; }
-
-        public string ProductType { get; set; }
-
-        public int TotalQuantity { get; set; }
-
-        public double AverageUnitPrice { get; set; }
-
-        public string MeasurementUnit { get; set; }
+        public Worker Worker { get; set; }
     }
 }

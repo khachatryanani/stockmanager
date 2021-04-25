@@ -38,7 +38,7 @@
                 Foreground="White"
                 Background="#242E38"
                 Click="ViewDetailsBtn_Click"/>
-        <ListView x:Name="InStockListView" HorizontalAlignment="Center" 
+        <ListView x:Name="OrdersListView" HorizontalAlignment="Center" 
                   Height="Auto"
                   MaxHeight="450"
                   MaxWidth="650"
@@ -66,8 +66,8 @@
         <Border Name="CreateNewOrderSection"
                 Background="#F3F0F0"
                 Grid.Column="1"
-                Grid.RowSpan="2"
-                Visibility="Hidden">
+                Grid.RowSpan="2" 
+                Visibility="Visible">
             <Border.Effect>
                 <DropShadowEffect Direction="180" 
                                   ShadowDepth="4"
@@ -92,14 +92,16 @@
 
 
 
-                <ComboBox x:Name="CustomerCombo" Height="30" HorizontalAlignment="Left" Margin="23,105,0,0" VerticalAlignment="Top" Width="200"/>
+                <ComboBox x:Name="CustomersCombo"
+                          Height="30" HorizontalAlignment="Left" Margin="23,105,0,0" VerticalAlignment="Top" Width="200"/>
                 <Button x:Name="SubmitBtn" Background="#8BAB42" 
                         Content="Create New Order" 
                         Foreground="White"
                         HorizontalAlignment="Center" 
                         Height="30" Margin="0,490,0,0" 
-                        VerticalAlignment="Top" Width="200" />
-                <Button x:Name="CancelBtn" Background="Transparent" BorderThickness="0" Content="Cancel" HorizontalAlignment="Left" Height="30" Margin="73,525,0,0" VerticalAlignment="Top" Width="100" />
+                        VerticalAlignment="Top" Width="200" 
+                        Click="SubmitBtn_Click"/>
+                <Button x:Name="CancelBtn" Background="Transparent" BorderThickness="0" Content="Cancel" HorizontalAlignment="Left" Height="30" Margin="73,525,0,0" VerticalAlignment="Top" Width="100"  />
                 <Label Content="Creating New Order" 
                        HorizontalContentAlignment="Center"
                        FontSize="18" HorizontalAlignment="Left" 
@@ -108,29 +110,61 @@
                        Foreground="#FF4C00"
                        FontWeight="Bold"/>
 
-                <ListView x:Name="AddItemListView" HorizontalAlignment="Center" 
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Left"
+                      Height="150"
+                      Width="200"
+                      Margin="25,300,0,0">
+                    <ScrollViewer HorizontalAlignment="Left" 
+                                  VerticalAlignment="Top"
+                                  Height="150"
+                                  Width="220" 
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="OrderItemsStack">
+                            <ComboBox Name="ProductsCombo" 
+                                      HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top"
+                                      Width="145" Height="30"
+                                      Margin="0,10,0,0"
+                                      Padding="10"/>
+
+                            <TextBox x:Name="QuantityTetxtBox"
+                                      Width="45" Height="30"
+                                     HorizontalAlignment="Left" 
+                                      VerticalAlignment="Top"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Right"
+                                      Margin="155,-30,0,0" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <!--<ListView x:Name="AddItemListView" HorizontalAlignment="Center" 
                   Height="Auto"
-                  MaxHeight="450"
+                  MaxHeight="150"
                   MaxWidth="650"
-                  Margin="0,305,0,0" 
+                  Margin="0,286,0,0" 
                   VerticalAlignment="Top" 
                   BorderThickness="0"
                   Background="Transparent"
-                  DataContext="{Binding Order}"
                   Width="230">
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="Product" Width="160">
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox Width="140" Height="25" />
+                                    <DataTemplate >
+                                        <ComboBox 
+                                            Name="ProductsCombo" Width="140" Height="25" 
+                                            ItemsSource="{Binding Path=productList}"
+                 />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Quantity" Width="60">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Width="40" Height="25" />
+                                        <TextBox x:Name="QuantityTextBox" Width="40" Height="25" 
+                                                 VerticalContentAlignment="Center"
+                                                 HorizontalContentAlignment="Right"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -142,10 +176,20 @@
 
                     </ListViewItem>
 
-                </ListView>
-                <Border  Background="#F3F0F0" Margin="6,305,0,274"></Border>
-                <Label Content="Order Item" FontSize="11" HorizontalAlignment="Left" Margin="18,297,0,0" VerticalAlignment="Top" Width="80" Height="27"/>
-                <Button x:Name="AddItemBtn" Background="Transparent" Foreground="Blue" Content="+ add item" HorizontalAlignment="Left" Margin="161,357,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="64" BorderThickness="0"/>
+
+                </ListView>-->
+                <Border  Background="#F3F0F0" Margin="6,285,0,294"></Border>
+                <Label Content="Order Item" FontSize="11" HorizontalAlignment="Left" Margin="25,270,0,0" VerticalAlignment="Top" Width="80" Height="26"/>
+                <Button x:Name="AddItemBtn" 
+                        Background="Transparent" 
+                        Foreground="Blue" 
+                        Content="+ add item" 
+                        HorizontalAlignment="Left" 
+                        Margin="161,273,0,0" 
+                        VerticalAlignment="Top" 
+                        HorizontalContentAlignment="Left" 
+                        Width="64" BorderThickness="0" 
+                        Click="AddItemBtn_Click"/>
             </Grid>
 
 
@@ -154,7 +198,7 @@
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Background="#F3F0F0"
-                Visibility="Visible">
+                Visibility="Hidden">
             <Border.Effect>
                 <DropShadowEffect Direction="900" 
                                   ShadowDepth="4"

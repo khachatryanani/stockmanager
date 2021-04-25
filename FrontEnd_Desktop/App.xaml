@@ -9,18 +9,24 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonTheme.xaml"/>
 
                 <ResourceDictionary Source="Theme/ListViewTheme.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type viewModel:InStockViewModel}">
+            <DataTemplate DataType="{x:Type viewModel:StockViewModel}">
                 <view:InStockView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:OrderViewModel}">
-                <view:OrderView/>
+         
+            <DataTemplate DataType="{x:Type viewModel:StockItemViewModel}">
+                <view:StockItemView/>
             </DataTemplate>
-        
+
+            <DataTemplate DataType="{x:Type viewModel:StockItemsViewModel}">
+                <view:StockItemsView/>
+            </DataTemplate>
+
 
         </ResourceDictionary>
     </Application.Resources>

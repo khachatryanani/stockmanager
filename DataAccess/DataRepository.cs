@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class DataRepository
+    public class DataRepository : IDataRepository
     {
         //For ComboBox dropdowns
         private List<Product> products;
@@ -20,7 +20,7 @@ namespace DataAccess
             this.connectionString = connectionString;
         }
 
-        public List<StockItem> GetInStockItems()
+        public List<Stock> GetStockItems()
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
@@ -32,7 +32,7 @@ namespace DataAccess
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        var inStockItems = new List<StockItem>();
+                        var stock = new List<Stock>();
                         if (reader.HasRows)
                         {
                             int ordProductId = reader.GetOrdinal("ProductId");
@@ -44,19 +44,24 @@ namespace DataAccess
 
                             while (reader.Read())
                             {
-                                inStockItems.Add(
-                                    new StockItem
+                                var stockedProduct = new Product
+                                {
+                                    ProductId = reader.GetInt32(ordProductId),
+                                    Name = reader.GetString(ordProductName),
+                                    Type = reader.GetString(ordProductType),
+                                    Price = Convert.ToDouble(reader.GetDecimal(ordPrice)),
+                                    Unit = reader.GetString(ordMeasurement)
+                                };
+
+                                stock.Add(
+                                    new Stock
                                     {
-                                        ProductId = reader.GetInt32(ordProductId),
-                                        ProductName = reader.GetString(ordProductName),
-                                        ProductType = reader.GetString(ordProductType),
                                         TotalQuantity = reader.GetInt32(ordTotal),
-                                        AverageUnitPrice = Convert.ToDouble(reader.GetDecimal(ordPrice)),
-                                        MeasurementUnit = reader.GetString(ordMeasurement)
-                                    }); ;
+                                        StockedProduct = stockedProduct
+                                    });
                             }
                         }
-                        return inStockItems;
+                        return stock;
                     }
                 }
             }
@@ -64,7 +69,7 @@ namespace DataAccess
 
         public List<Product> GetProducts()
         {
-            if (this.products != null) 
+            if (this.products != null)
             {
                 return this.products;
             }
@@ -107,7 +112,7 @@ namespace DataAccess
 
         public List<Worker> GetWorkers()
         {
-            if (this.workers != null) 
+            if (this.workers != null)
             {
                 return this.workers;
             }
@@ -152,7 +157,7 @@ namespace DataAccess
 
         public List<Customer> GetCustomers()
         {
-            if (this.customers != null) 
+            if (this.customers != null)
             {
                 return this.customers;
             }
@@ -195,20 +200,20 @@ namespace DataAccess
             }
         }
 
-        public List<StockItemDetailed> GetStockedProductDetails(int productId)
+        public List<StockItem> GetStockItem(int productId)
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[GetStockedProductDetails]";
                     command.Parameters.Add("@productId", SqlDbType.Int).Value = productId;
 
-                    using (SqlDataReader reader = command.ExecuteReader()) 
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        var stockDetails = new List<StockItemDetailed>();
+                        var stockItem = new List<StockItem>();
                         if (reader.HasRows)
                         {
                             int ordProductId = reader.GetOrdinal("Productid");
@@ -222,30 +227,40 @@ namespace DataAccess
                             int ordQuantity = reader.GetOrdinal("ActualQuantity");
                             int ordWorker = reader.GetOrdinal("CreatedBy");
                             int ordWorkerId = reader.GetOrdinal("WorkerId");
-                            
+
                             while (reader.Read())
                             {
-                                stockDetails.Add(
-                                    new StockItemDetailed
+                                var stockedProduct = new Product
+                                {
+                                    ProductId = reader.GetInt32(ordProductId),
+                                    Name = reader.GetString(ordProductName),
+                                    Type = reader.GetString(ordProductType),
+                                    Price = Convert.ToDouble(reader.GetDecimal(ordPrice)),
+                                    Unit = reader.GetString(ordMUnit)
+                                };
+
+                                var worker = new Worker
+                                {
+                                    Name = reader.GetString(ordWorker),
+                                    WorkerId = reader.GetInt32(ordWorkerId)
+                                };
+
+                                stockItem.Add(
+                                    new StockItem
                                     {
-                                        ProductId = reader.GetInt32(ordProductId),
-                                        ProductName = reader.GetString(ordProductName),
-                                        ProductType = reader.GetString(ordProductType),
-                                        AverageUnitPrice = Convert.ToDouble(reader.GetDecimal(ordPrice)),
-                                        MeasurementUnit = reader.GetString(ordMUnit),
+                                        StockedProduct = stockedProduct,
                                         StockedDate = reader.GetDateTime(ordStockedDate),
                                         ProductionDate = reader.GetDateTime(ordProductionDate),
                                         ExpirationDate = reader.GetDateTime(ordExpirationDate),
                                         Quantity = reader.GetInt32(ordQuantity),
-                                        WorkerName = reader.GetString(ordWorker),
-                                        WorkerId = reader.GetInt32(ordWorkerId)
-                                    });
+                                        Worker = worker
+                                    }) ;
                             }
                         }
 
-                        return stockDetails;
-                    }     
-                } 
+                        return stockItem;
+                    }
+                }
             }
         }
 
@@ -254,12 +269,12 @@ namespace DataAccess
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[GetOrders]";
 
-                    using (SqlDataReader reader = command.ExecuteReader()) 
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
                         var orders = new List<Order>();
                         if (reader.HasRows)
@@ -276,41 +291,55 @@ namespace DataAccess
 
                             while (reader.Read())
                             {
+                                var customer = new Customer
+                                {
+                                    Name = reader.GetString(ordCustomerName),
+                                    Address = reader.GetString(ordCustomerAddress),
+                                };
+
+                                var receiver = new Worker
+                                {
+                                    Name = reader.GetString(ordReceivedBy),
+                                };
+
+                                var deliverer = new Worker
+                                {
+                                    Name = reader.IsDBNull(ordDeliveredBy) ? default : reader.GetString(ordDeliveredBy),
+                                };
 
                                 orders.Add(
                                     new Order
                                     {
                                         OrderId = reader.GetInt32(ordOrderId),
-                                        CustomerName = reader.GetString(ordCustomerName),
-                                        CustomerAddress = reader.GetString(ordCustomerAddress),
+                                        Customer = customer,
                                         TotalPrice = Convert.ToDouble(reader.GetDecimal(ordTotalPrice)),
                                         ReceivedDate = reader.GetDateTime(ordReceivedDate),
-                                        ReceivedBy = reader.GetString(ordReceivedBy),
+                                        Receiver = receiver,
                                         DeliveryDate = reader.IsDBNull(ordDeliveryDate) ? default : reader.GetDateTime(ordDeliveryDate),
-                                        DeliveredBy = reader.IsDBNull(ordDeliveredBy) ? default : reader.GetString(ordDeliveredBy),
+                                        Deliverer = deliverer,
                                         Status = reader.GetString(ordStatus)
-                                    });
+                                    }); 
                             }
                         }
 
                         return orders;
-                    }  
-                }   
+                    }
+                }
             }
         }
 
-        public List<OrderItem> GetOrderDetails(int orderId)
+        public List<OrderItem> GetOrder(int orderId)
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[GetOrderDetails]";
                     command.Parameters.Add("@orderId", SqlDbType.Int).Value = orderId;
 
-                    using (SqlDataReader reader = command.ExecuteReader()) 
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
                         var orderItems = new List<OrderItem>();
                         if (reader.HasRows)
@@ -324,22 +353,27 @@ namespace DataAccess
 
                             while (reader.Read())
                             {
+                                var orderedProduct = new Product
+                                {
+                                    Name = reader.GetString(ordProductName),
+                                    Unit = reader.GetString(ordUnit),
+                                    Price = Convert.ToDouble(reader.GetDecimal(ordUnitPrice))
+                                };
+
                                 orderItems.Add(
                                     new OrderItem
                                     {
                                         OrderId = reader.GetInt32(ordOrderId),
-                                        ProductName = reader.GetString(ordProductName),
-                                        MeasurementUnit = reader.GetString(ordUnit),
+                                        OrderedProduct = orderedProduct,
                                         Quantity = reader.GetInt32(ordQuantity),
-                                        Price = Convert.ToDouble(reader.GetDecimal(ordUnitPrice)),
-                                        ItemStatus = reader.GetString(ordStatus)
+                                        OrderItemStatus = reader.GetString(ordStatus)
                                     });
                             }
                         }
 
                         return orderItems;
-                    }    
-                } 
+                    }
+                }
             }
         }
 
@@ -355,43 +389,42 @@ namespace DataAccess
             return orders.Where(s => s.Status == "Delivered").ToList();
         }
 
-        public void CreateNewOrder(Order orderItem)
+        public void CreateOrder(Order order)
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[CreateNewOrder]";
 
-
-                    command.Parameters.Add("@customerId", SqlDbType.Int).Value = orderItem.CustomerId;
-                    command.Parameters.Add("@recievedDate", SqlDbType.DateTime2).Value = orderItem.ReceivedDate;
-                    command.Parameters.Add("@receiverId", SqlDbType.Int).Value = orderItem.ReceivedBy;
-                    command.Parameters.Add("@productList", SqlDbType.Structured).Value = orderItem.ProductList.ConvertToProductsDataTable();
+                    command.Parameters.Add("@customerId", SqlDbType.Int).Value = order.Customer.CustomerId;
+                    command.Parameters.Add("@recievedDate", SqlDbType.DateTime2).Value = order.ReceivedDate;
+                    command.Parameters.Add("@receiverId", SqlDbType.Int).Value = order.Receiver.WorkerId;
+                    command.Parameters.Add("@productList", SqlDbType.Structured).Value = order.OrderItemList.ConvertToProductsDataTable();
 
                     command.ExecuteNonQuery();
-                }                    
+                }
             }
         }
 
-        public void CreateNewStockItem(StockItemDetailed stockItem)
+        public void CreateStockItem(StockItem stockItem)
         {
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[InStockNewItem]";
 
-                    command.Parameters.Add("@productId", SqlDbType.Int).Value = stockItem.ProductId;
+                    command.Parameters.Add("@productId", SqlDbType.Int).Value = stockItem.StockedProduct.ProductId;
                     command.Parameters.Add("@productionDate", SqlDbType.DateTime2).Value = stockItem.ProductionDate;
                     command.Parameters.Add("@stockedDate", SqlDbType.DateTime2).Value = stockItem.StockedDate;
                     command.Parameters.Add("@producedQuantity", SqlDbType.Int).Value = stockItem.Quantity;
-                    command.Parameters.Add("@unitPrice", SqlDbType.Decimal).Value = stockItem.AverageUnitPrice;
-                    command.Parameters.Add("@workerId", SqlDbType.Int).Value = stockItem.WorkerId;
+                    command.Parameters.Add("@unitPrice", SqlDbType.Decimal).Value = Convert.ToDecimal(stockItem.StockedProduct.Price);
+                    command.Parameters.Add("@workerId", SqlDbType.Int).Value = stockItem.Worker.WorkerId;
 
                     command.ExecuteNonQuery();
                 }
@@ -403,7 +436,7 @@ namespace DataAccess
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[ApproveOrder]";
@@ -411,7 +444,7 @@ namespace DataAccess
                     command.Parameters.Add("@orderId", SqlDbType.Int).Value = orderId;
 
                     command.ExecuteNonQuery();
-                }                    
+                }
             }
         }
 
@@ -420,7 +453,7 @@ namespace DataAccess
             using (SqlConnection connection = new SqlConnection(this.connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand()) 
+                using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[ApproveDelivery]";

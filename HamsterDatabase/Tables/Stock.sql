@@ -6,7 +6,7 @@
 	ProducedQuantity INT NOT NULL,
 	StockedDate DATETIME2 NOT NULL,
 	ActualQuantity INT,
-	UnitPrice MONEY NOT NULL,
+	UnitPrice DECIMAL NOT NULL,
 	WorkerId INT NOT NULL,
 	CONSTRAINT PK_ProductionId PRIMARY KEY (StockId),
 	--CONSTRAINT UK_ProductionId UNIQUE (ProductId, ProductionDate),

@@ -11,7 +11,6 @@ namespace DataAccess
         public char Category { get; set; }
         public string Type { get; set; }
         public string Unit { get; set; }
-        public double Quantity { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
     }
 }
