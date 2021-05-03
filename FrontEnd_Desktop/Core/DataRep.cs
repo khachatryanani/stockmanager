@@ -40,7 +40,7 @@ namespace FrontEnd_Desktop.Core
 
         public List<StockDTO> GetStockItems()
         {
-            var stockItemList = _dataRep.GetStockItems();
+            var stockItemList = _dataRep.GetStocks();
 
              return _mapper.Map<IEnumerable<StockDTO>>(stockItemList) as List<StockDTO>;
         }
@@ -54,13 +54,13 @@ namespace FrontEnd_Desktop.Core
 
         public List<StockItemDTO> GetStockItem(int productId)
         {
-            var stockItem = _dataRep.GetStockItem(productId);
+            var stockItem = _dataRep.GetStockItems(productId);
             return _mapper.Map<IEnumerable<StockItemDTO>>(stockItem) as List<StockItemDTO>;
         }
 
         public OrderDTO GetOrder(int orderId)
         {
-            var order = _dataRep.GetOrder(orderId);
+            var order = _dataRep.GetOrderItems(orderId);
             return _mapper.Map<OrderDTO>(order);
         }
 

@@ -13,7 +13,7 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
         public RelayCommand OrderViewCommand { get; set; }
 
         public StockViewModel InStockVM { get; set; }
-        public OrderViewModel OrderVM { get; set; }
+        public OrdersViewModel OrderVM { get; set; }
 
         public object CurrentView
         {
@@ -31,7 +31,7 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
         public MainViewModel()
         {
             InStockVM = new StockViewModel();
-            OrderVM = new OrderViewModel();
+            OrderVM = new OrdersViewModel();
 
             CurrentView = InStockVM;
 

@@ -12,5 +12,9 @@ namespace FrontEnd_Desktop.MVVM.Model
         public ProductDTO StockedProduct { get; set; }
         public int TotalQuantity { get; set; }
         public List<StockItemDTO> StockItemList { get; set; }
+        public StockDTO()
+        {
+            StockItemList = new List<StockItemDTO>();
+        }
     }
 }

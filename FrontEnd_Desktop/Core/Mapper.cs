@@ -16,6 +16,8 @@ namespace FrontEnd_Desktop.Core
                 cfg.CreateMap<Product, ProductDTO>();
                 cfg.CreateMap<Worker, WorkerDTO>();
                 cfg.CreateMap<Customer, CustomerDTO>();
+                cfg.CreateMap<Order, OrderDTO>();
+
                 cfg.CreateMap<Stock, StockDTO>()
                                   .ForMember(dest => dest.StockItemList,
                                              opt => opt.Ignore());

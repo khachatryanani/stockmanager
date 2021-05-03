@@ -18,5 +18,10 @@ namespace FrontEnd_Desktop.MVVM.Model
         public WorkerDTO Deliverer { get; set; }
         public List<OrderItemDTO> OrderItemList { get; set; }
 
+        public OrderDTO()
+        {
+            OrderItemList = new List<OrderItemDTO>();
+        }
+
     }
 }
