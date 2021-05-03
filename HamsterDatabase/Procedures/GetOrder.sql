@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[GetOrders]
-@orderStatus varchar(10) = '%'
+﻿CREATE PROCEDURE [dbo].[GetOrder]
+@orderId int
 AS
 	SELECT Orders.OrderId, Customers.CustomerName, Customers.CustomerAddress, SUM(St.Price) as TotalPrice, Orders.ReceivedDate, W1.FirstName + ' ' + W1.LastName as ReceivedBy, Orders.[Status], Orders.DeliveredDate, W2.FirstName + ' ' + W2.LastName as DeliveredBy
 	FROM Orders
@@ -10,8 +10,7 @@ AS
 		JOIN (SELECT ProductId, AVG(UnitPrice) as Price 
 				FROM StockWithExpirationDates	
 				GROUP BY ProductId) AS St ON St.ProductId = OrderDetails.ProductId
-	WHERE Orders.[Status] LIKE @orderStatus
+	WHERE Orders.OrderId LIKE @orderId
 	GROUP BY Orders.OrderId, Customers.CustomerName, Customers.CustomerAddress, Orders.TotalPrice, Orders.ReceivedDate, W1.FirstName + ' ' + W1.LastName , Orders.[Status], Orders.DeliveredDate, W2.FirstName + ' ' + W2.LastName
-	
 	
 RETURN 0

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetCustomers]
 AS
 	SELECT *
-	FROm Customers
+	FROM Customers
 RETURN 0

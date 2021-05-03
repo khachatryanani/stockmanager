@@ -74,11 +74,11 @@
     <Build Include="Tables\MeaserementUnits.sql" />
     <Build Include="Tables\ProductTypes.sql" />
     <Build Include="Triggers\SetActualQuantity.sql" />
-    <Build Include="Procedures\GetInStockItems.sql" />
-    <Build Include="Procedures\GetStockedProductDetails.sql" />
+    <Build Include="Procedures\GetStocks.sql" />
+    <Build Include="Procedures\GetStockItems.sql" />
     <Build Include="Procedures\GetOrdersOfCustomer.sql" />
-    <Build Include="Procedures\InStockNewItem.sql" />
-    <Build Include="Procedures\CreateNewOrder.sql" />
+    <Build Include="Procedures\CreateStockItem.sql" />
+    <Build Include="Procedures\CreateOrder.sql" />
     <Build Include="Procedures\AcceptOrderItems.sql" />
     <Build Include="Views\AvailableStockItems.sql" />
     <Build Include="Procedures\GetProducts.sql" />
@@ -86,12 +86,23 @@
     <Build Include="Procedures\GetOrders.sql" />
     <Build Include="Procedures\GetCustomers.sql" />
     <Build Include="Views\StockWithExpirationDates.sql" />
-    <Build Include="Procedures\GetOrderDetails.sql" />
+    <Build Include="Procedures\GetOrderItems.sql" />
     <Build Include="Procedures\AcceptOrder.sql" />
     <Build Include="Procedures\GetExpiredInStockItems.sql" />
     <Build Include="Procedures\ReduceExpiredItems.sql" />
     <Build Include="Views\PendingOrderItems.sql" />
     <Build Include="Procedures\ApproveDelivery.sql" />
+    <Build Include="Procedures\GetStock.sql" />
+    <Build Include="Procedures\GetStockItem.sql" />
+    <Build Include="Procedures\GetOrder.sql" />
+    <Build Include="Procedures\GetOrderItem.sql" />
+    <Build Include="Procedures\CreateWorker.sql" />
+    <Build Include="Procedures\GetWorker.sql" />
+    <Build Include="Procedures\DeleteWorker.sql" />
+    <Build Include="Procedures\UpdateWorker.sql" />
+    <Build Include="Procedures\GetCustomer.sql" />
+    <Build Include="Procedures\UpdateCustomer.sql" />
+    <Build Include="Procedures\CreateCustomer.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HamsterDatabase.publish.xml" />
