@@ -1,0 +1,34 @@
+﻿
+@{ this.Layout = "_Layout"; }
+@model List<StockItemViewModel>
+
+<div class="btn btn-primary" style="background-color: #FF4C00 !important">@Model[0].productName (@Model[0].unit)</div>
+<div><br /></div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Unit Price</th>
+                <th>Actual Quantity</th>
+                <th>Producted On</th>
+                <th>Stocked On</th>
+                <th>Expires On</th>
+                <th>Created By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+            <tr>
+                <td>@s.unitPrice</td>
+                <td>@s.actualQuantity</td>
+                <td>@s.productionDate</td>
+                <td>@s.stockedDate</td>
+                <td>@s.expirationDate</td>
+                <td>@s.createdBy</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<a asp-controller="Stocks" asp-action="Index">< Back to Stocks</a>

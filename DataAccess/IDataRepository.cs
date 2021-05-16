@@ -24,7 +24,7 @@ namespace DataAccess
 
         //Stocks
         List<Stock> GetStocks();
-        Stock GetStock(int productId);
+        Stock GetStock(int stockId);
         List<StockItem> GetStockItems(int productId);
         StockItem GetStockItem(int itemId);
         void CreateStockItem(StockItem stockItem);

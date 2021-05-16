@@ -12,84 +12,99 @@ namespace WebApi
     {
         public AutoMapperProfile()
         {
-            CreateMap<Product, ProductDTO>();
-            CreateMap<Worker, WorkerDTO>();
-            CreateMap<Customer, CustomerDTO>();
-            CreateMap<Order, OrderDTO>()
-                              .ForMember(dest => dest.CustomerId,
+            //DataAccess Model to WebApi Model
+            CreateMap<Product, ProductModel>();
+            CreateMap<Worker, WorkerModel>();
+            CreateMap<Customer, CustomerModel>();
+            CreateMap<Order, OrderModel>()
+                              .ForPath(dest => dest.CustomerId,
                                          opt => opt.MapFrom(src => src.Customer.CustomerId))
-                              .ForMember(dest => dest.CustomerName,
+                              .ForPath(dest => dest.CustomerName,
                                          opt => opt.MapFrom(src => src.Customer.Name))
-                              .ForMember(dest => dest.Receiver,
-                                         opt =>  opt.MapFrom(src => src.Receiver.ToString()))
-                              .ForMember(dest => dest.ReceiverId,
+                              .ForPath(dest => dest.TotalPrice,
+                                         opt => opt.MapFrom(src => string.Format("{0:C}",src.TotalPrice)))
+                              .ForPath(dest => dest.Receiver,
+                                         opt => opt.MapFrom(src => src.Receiver.ToString()))
+                              .ForPath(dest => dest.ReceiverId,
                                          opt => opt.MapFrom(src => src.Receiver.WorkerId))
-                              .ForMember(dest => dest.Deliverer,
+                               .ForPath(dest => dest.ReceivedDate,
+                                         opt => opt.MapFrom(src => src.ReceivedDate.ToShortDateString()))
+                              .ForPath(dest => dest.Deliverer,
                                          opt => opt.MapFrom(src => src.Deliverer.ToString()))
-                              .ForMember(dest => dest.DelivererId,
-                                         opt => opt.MapFrom(src => src.Deliverer.WorkerId));
-            CreateMap<Stock, StockDTO>()
-                              .ForMember(dest => dest.ProductId,
+                              .ForPath(dest => dest.DelivererId,
+                                         opt => opt.MapFrom(src => src.Deliverer.WorkerId))
+                               .ForPath(dest => dest.DeliveryDate,
+                                         opt => opt.MapFrom(src => src.DeliveryDate == default(DateTime) ? string.Empty : src.DeliveryDate.ToShortDateString()));
+            CreateMap<OrderItem, OrderItemModel>()
+                             .ForPath(dest => dest.ProductName,
+                                        opt => opt.MapFrom(src => src.OrderedProduct.Name))
+                             .ForPath(dest => dest.Unit,
+                                        opt => opt.MapFrom(src => src.OrderedProduct.Unit))
+                             .ForPath(dest => dest.Quantity,
+                                        opt => opt.MapFrom(src => src.Quantity))
+                             .ForPath(dest => dest.UnitPrice,
+                                        opt => opt.MapFrom(src => string.Format("{0:C}", src.OrderedProduct.Price)));
+            CreateMap<Stock, StockModel>()
+                              .ForPath(dest => dest.ProductId,
                                          opt => opt.MapFrom(src => src.StockedProduct.ProductId))
-                              .ForMember(dest => dest.ProductName,
+                              .ForPath(dest => dest.ProductName,
                                          opt => opt.MapFrom(src => src.StockedProduct.Name))
-                              .ForMember(dest => dest.ProductType,
+                              .ForPath(dest => dest.ProductType,
                                          opt => opt.MapFrom(src => src.StockedProduct.Type))
-                              .ForMember(dest => dest.Unit,
+                              .ForPath(dest => dest.Unit,
                                          opt => opt.MapFrom(src => src.StockedProduct.Unit))
-                              .ForMember(dest => dest.UnitPrice,
-                                         opt => opt.MapFrom(src => src.StockedProduct.Price));
-            CreateMap<StockItem, StockItemDTO>()
-                               .ForMember(dest => dest.ProductId,
+                              .ForPath(dest => dest.UnitPrice,
+                                         opt => opt.MapFrom(src => string.Format("{0:C}",src.StockedProduct.Price)));
+            CreateMap<StockItem, StockItemModel>()
+                               .ForPath(dest => dest.ProductId,
                                          opt => opt.MapFrom(src => src.StockedProduct.ProductId))
-                              .ForMember(dest => dest.ProductName,
+                               .ForPath(dest => dest.ProductName,
                                          opt => opt.MapFrom(src => src.StockedProduct.Name))
-                              .ForMember(dest => dest.ProductType,
+                               .ForPath(dest => dest.ProductType,
                                          opt => opt.MapFrom(src => src.StockedProduct.Type))
-                              .ForMember(dest => dest.Unit,
+                               .ForPath(dest => dest.ActualQuantity,
+                                         opt => opt.MapFrom(src => src.Quantity))
+                               .ForPath(dest => dest.Unit,
                                          opt => opt.MapFrom(src => src.StockedProduct.Unit))
-                              .ForMember(dest => dest.UnitPrice,
-                                         opt => opt.MapFrom(src => src.StockedProduct.Price))
-                              .ForMember(dest => dest.CreatedById,
-                                         opt => opt.MapFrom(src => src.Worker.WorkerId))
-                              .ForMember(dest => dest.CreatedBy,
-                                         opt => opt.MapFrom(src => src.Worker.ToString()));
-            CreateMap<OrderItem, OrderItemDTO>()
-                              .ForMember(dest => dest.ProductName,
-                                         opt => opt.MapFrom(src => src.OrderedProduct.Name))
-                              .ForMember(dest => dest.UnitPrice,
-                                         opt => opt.MapFrom(src => src.OrderedProduct.Price))
-                              .ForMember(dest => dest.Unit,
-                                         opt => opt.MapFrom(src => src.OrderedProduct.Unit));
-            CreateMap<ProductDTO, Product>();
-            CreateMap<WorkerDTO, Worker>();
-            CreateMap<CustomerDTO, Customer>();
-            CreateMap<StockItemDTO, StockItem>()
-                              .ForMember(dest => dest.ProductionDate,
-                                         opt => opt.MapFrom(src => Convert.ToDateTime(src.ProductionDate)))
-                              .ForMember(dest => dest.StockedDate,
-                                         opt => opt.MapFrom(src => Convert.ToDateTime(src.StockedDate)))
-                               .ForMember(dest => dest.StockedProduct.ProductId,
+                              .ForPath(dest => dest.UnitPrice,
+                                         opt => opt.MapFrom(src => string.Format("{0:C}", src.StockedProduct.Price)))
+                              .ForPath(dest => dest.StockedDate,
+                                         opt => opt.MapFrom(src => src.StockedDate.ToShortDateString()))
+                              .ForPath(dest => dest.ProductionDate,
+                                         opt => opt.MapFrom(src => src.ProductionDate.ToShortDateString()))
+                              .ForPath(dest => dest.ExpirationDate,
+                                         opt => opt.MapFrom(src => src.ExpirationDate.ToShortDateString()))
+                              .ForPath(dest => dest.CreatedBy,
+                                         opt => opt.MapFrom(src => src.Worker.ToString()))
+                              .ForPath(dest => dest.CreatedById,
+                                         opt => opt.MapFrom(src => src.Worker.WorkerId));
+            //WebApi Model to DataAccess Model
+            CreateMap<ProductModel, Product>();
+            CreateMap<WorkerModel, Worker>();
+            CreateMap<CustomerModel, Customer>();
+            CreateMap<StockItemBaseModel, StockItem>()
+                               .ForPath(dest => dest.StockedProduct.ProductId,
                                          opt => opt.MapFrom(src => src.ProductId))
-                              .ForMember(dest => dest.StockedProduct.Name,
-                                         opt => opt.MapFrom(src => src.ProductName))
-                              .ForMember(dest => dest.StockedProduct.Type,
-                                         opt => opt.MapFrom(src => src.ProductType))
-                              .ForMember(dest => dest.StockedProduct.Unit,
-                                         opt => opt.MapFrom(src => src.Unit))
-                              .ForMember(dest => dest.StockedProduct.Price,
-                                         opt => opt.MapFrom(src => src.UnitPrice));
-            CreateMap<OrderDTO, Order>()
-                             .ForMember(dest => dest.ReceivedDate,
-                                        opt => opt.MapFrom(src => Convert.ToDateTime(src.ReceivedDate)))
-                              .ForMember(dest => dest.Customer.CustomerId,
+                              .ForPath(dest => dest.Quantity,
+                                         opt => opt.MapFrom(src => src.Quantity))
+                              .ForPath(dest => dest.Worker.WorkerId,
+                                         opt => opt.MapFrom(src => src.CreatedById))
+                              .ForPath(dest => dest.ProductionDate,
+                                         opt => opt.MapFrom(src => DateTime.Parse(src.ProductionDate)))
+                              .ForPath(dest => dest.StockedDate,
+                                         opt => opt.MapFrom(src => DateTime.Parse(src.StockedDate)));
+            CreateMap<OrderItemBaseModel, OrderItem>()
+                             .ForPath(dest => dest.OrderedProduct.ProductId,
+                                        opt => opt.MapFrom(src => src.ProductId));
+            CreateMap<OrderBaseModel, Order>()
+                             .ForPath(dest => dest.Customer.CustomerId,
                                          opt => opt.MapFrom(src => src.CustomerId))
-                              .ForMember(dest => dest.Customer.Name,
-                                         opt => opt.MapFrom(src => src.CustomerName))
-                              .ForMember(dest => dest.Receiver.WorkerId,
+                             .ForPath(dest => dest.ReceivedDate,
+                                        opt => opt.MapFrom(src => DateTime.Parse(src.ReceivedDate)))
+                              .ForPath(dest => dest.Receiver.WorkerId,
                                          opt => opt.MapFrom(src => src.ReceiverId))
-                              .ForMember(dest => dest.Deliverer.WorkerId,
-                                         opt => opt.MapFrom(src => src.DelivererId));
+                              .ForPath(dest => dest.OrderItemList,
+                                         opt => opt.MapFrom(src => src.OrderItems));
         }
     }
 }

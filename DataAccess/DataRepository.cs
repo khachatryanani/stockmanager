@@ -436,7 +436,7 @@ namespace DataAccess
                         var stockItems = new List<StockItem>();
                         if (reader.HasRows)
                         {
-                            int ordProductId = reader.GetOrdinal("Productid");
+                            int ordProductId = reader.GetOrdinal("ProductId");
                             int ordProductName = reader.GetOrdinal("ProductName");
                             int ordProductType = reader.GetOrdinal("ProductType");
                             int ordPrice = reader.GetOrdinal("UnitPrice");
@@ -500,13 +500,17 @@ namespace DataAccess
                         if (reader.HasRows)
                         {
                             int ordOrderId = reader.GetOrdinal("OrderId");
+                            int ordCustomerId = reader.GetOrdinal("CustomerId");
                             int ordCustomerName = reader.GetOrdinal("CustomerName");
-                            int ordCustomerAddress = reader.GetOrdinal("CustomerAddress");
                             int ordTotalPrice = reader.GetOrdinal("TotalPrice");
                             int ordReceivedDate = reader.GetOrdinal("ReceivedDate");
-                            int ordReceivedBy = reader.GetOrdinal("ReceivedBy");
+                            int ordReceiverId = reader.GetOrdinal("ReceiverId");
+                            int ordReceiverFirstName = reader.GetOrdinal("ReceiverFirstName");
+                            int ordReceiverLastName = reader.GetOrdinal("ReceiverLastName");
                             int ordDeliveryDate = reader.GetOrdinal("DeliveredDate");
-                            int ordDeliveredBy = reader.GetOrdinal("DeliveredBy");
+                            int ordDelivererId = reader.GetOrdinal("DelivererId");
+                            int ordDelivereFirstName = reader.GetOrdinal("DelivererFirstName");
+                            int ordDelivererLastName = reader.GetOrdinal("DelivererLastName");
                             int ordStatus = reader.GetOrdinal("Status");
 
                             while (reader.Read())
@@ -514,17 +518,21 @@ namespace DataAccess
                                 var customer = new Customer
                                 {
                                     Name = reader.GetString(ordCustomerName),
-                                    Address = reader.GetString(ordCustomerAddress),
+                                    CustomerId = reader.GetInt32(ordCustomerId),
                                 };
 
                                 var receiver = new Worker
                                 {
-                                    Name = reader.GetString(ordReceivedBy),
+                                    WorkerId = reader.GetInt32(ordReceiverId),
+                                    Name = reader.GetString(ordReceiverFirstName),
+                                    Surname = reader.GetString(ordReceiverLastName),
                                 };
 
                                 var deliverer = new Worker
                                 {
-                                    Name = reader.IsDBNull(ordDeliveredBy) ? default : reader.GetString(ordDeliveredBy),
+                                    WorkerId = reader.IsDBNull(ordDelivererId) ? default : reader.GetInt32(ordDelivererId),
+                                    Name = reader.IsDBNull(ordDelivereFirstName) ? default : reader.GetString(ordDelivereFirstName),
+                                    Surname = reader.IsDBNull(ordDelivererLastName) ? default : reader.GetString(ordDelivererLastName)
                                 };
 
                                 orders.Add(
@@ -835,7 +843,7 @@ namespace DataAccess
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[GetStock]";
-                    command.Parameters.Add("@stockedProductId", SqlDbType.Int).Value = productId;
+                    command.Parameters.Add("@productId", SqlDbType.Int).Value = productId;
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -952,29 +960,37 @@ namespace DataAccess
                         if (reader.HasRows)
                         {
                             int ordOrderId = reader.GetOrdinal("OrderId");
+                            int ordCustomerId = reader.GetOrdinal("CustomerId");
                             int ordCustomerName = reader.GetOrdinal("CustomerName");
-                            int ordCustomerAddress = reader.GetOrdinal("CustomerAddress");
                             int ordTotalPrice = reader.GetOrdinal("TotalPrice");
                             int ordReceivedDate = reader.GetOrdinal("ReceivedDate");
-                            int ordReceivedBy = reader.GetOrdinal("ReceivedBy");
+                            int ordReceiverId = reader.GetOrdinal("ReceiverId");
+                            int ordReceiverFirstName = reader.GetOrdinal("ReceiverFirstName");
+                            int ordReceiverLastName = reader.GetOrdinal("ReceiverLastName");
                             int ordDeliveryDate = reader.GetOrdinal("DeliveredDate");
-                            int ordDeliveredBy = reader.GetOrdinal("DeliveredBy");
+                            int ordDelivererId = reader.GetOrdinal("DelivererId");
+                            int ordDelivereFirstName = reader.GetOrdinal("DelivererFirstName");
+                            int ordDelivererLastName = reader.GetOrdinal("DelivererLastName");
                             int ordStatus = reader.GetOrdinal("Status");
 
                             var customer = new Customer
                             {
                                 Name = reader.GetString(ordCustomerName),
-                                Address = reader.GetString(ordCustomerAddress),
+                                CustomerId = reader.GetInt32(ordCustomerId),
                             };
 
                             var receiver = new Worker
                             {
-                                Name = reader.GetString(ordReceivedBy),
+                                WorkerId = reader.GetInt32(ordReceiverId),
+                                Name = reader.GetString(ordReceiverFirstName),
+                                Surname = reader.GetString(ordReceiverLastName),
                             };
 
                             var deliverer = new Worker
                             {
-                                Name = reader.IsDBNull(ordDeliveredBy) ? default : reader.GetString(ordDeliveredBy),
+                                WorkerId = reader.GetInt32(ordDelivererId),
+                                Name = reader.IsDBNull(ordDelivereFirstName) ? default : reader.GetString(ordDelivereFirstName),
+                                Surname = reader.IsDBNull(ordDelivererLastName) ? default : reader.GetString(ordDelivererLastName)
                             };
 
                             var order =

@@ -24,19 +24,25 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<StockDTO> GetStocks() 
+        public IEnumerable<StockModel> GetStocks()
         {
-            return _mapper.Map<IEnumerable<StockDTO>>(_dataRep.GetStocks());
+            return _mapper.Map<IEnumerable<StockModel>>(_dataRep.GetStocks());
         }
 
+        //[HttpGet("{id:int}")]
+        //public StockModel GetStock(int id)
+        //{
+        //    return _mapper.Map<StockModel>(_dataRep.GetStock(id));
+        //}
+
         [HttpGet("{id:int}")]
-        public IEnumerable<StockItemDTO> GetStockItems(int id)
+        public IEnumerable<StockItemModel> GetStockItems(int id)
         {
-            return _mapper.Map<IEnumerable<StockItemDTO>>(_dataRep.GetStockItems(id));
+            return _mapper.Map<IEnumerable<StockItemModel>>(_dataRep.GetStockItems(id));
         }
 
         [HttpPost]
-        public IActionResult CreateStockItem([FromQuery] StockItemDTO stockItem)
+        public IActionResult CreateStockItem([FromBody] StockItemBaseModel stockItem)
         {
             _dataRep.CreateStockItem(_mapper.Map<StockItem>(stockItem));
 

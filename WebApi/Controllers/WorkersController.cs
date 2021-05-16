@@ -24,19 +24,19 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WorkerDTO> GetWorkers()
+        public IEnumerable<WorkerModel> GetWorkers()
         {
-            return _mapper.Map<IEnumerable<WorkerDTO>>(_dataRep.GetWorkers());
+            return _mapper.Map<IEnumerable<WorkerModel>>(_dataRep.GetWorkers());
         }
 
         [HttpGet("{id:int}")]
-        public WorkerDTO GetWorker(int id)
+        public WorkerModel GetWorker(int id)
         {
-            return _mapper.Map<WorkerDTO>(_dataRep.GetWorker(id));
+            return _mapper.Map<WorkerModel>(_dataRep.GetWorker(id));
         }
 
         [HttpPost]
-        public IActionResult CreateWorker([FromQuery] WorkerDTO workerDTO)
+        public IActionResult CreateWorker([FromBody] WorkerModel workerDTO)
         {
             _dataRep.CreateWorker(_mapper.Map<Worker>(workerDTO));
 
@@ -51,9 +51,10 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public IActionResult UpdateWorker([FromQuery]WorkerDTO workerDTO)
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateWorker(int id, [FromBody] WorkerModel workerDTO)
         {
+            workerDTO.WorkerId = id;
             _dataRep.UpdateWorker(_mapper.Map<Worker>(workerDTO));
 
             return Ok();

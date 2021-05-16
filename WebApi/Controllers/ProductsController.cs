@@ -24,9 +24,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ProductDTO> GetProducts()
+        public IEnumerable<ProductModel> GetProducts()
         {
-            return _mapper.Map<IEnumerable<ProductDTO>>(_dataRep.GetProducts());
+            return _mapper.Map<IEnumerable<ProductModel>>(_dataRep.GetProducts());
         }
     }
 }

@@ -24,28 +24,29 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<CustomerDTO> GetCustomers()
+        public IEnumerable<CustomerModel> GetCustomers()
         {
-            return _mapper.Map<IEnumerable<CustomerDTO>>(_dataRep.GetCustomers());
+            return _mapper.Map<IEnumerable<CustomerModel>>(_dataRep.GetCustomers());
         }
 
         [HttpGet("{id:int}")]
-        public CustomerDTO GetCustomer(int id)
+        public CustomerModel GetCustomer(int id)
         {
-            return _mapper.Map<CustomerDTO>(_dataRep.GetCustomer(id));
+            return _mapper.Map<CustomerModel>(_dataRep.GetCustomer(id));
         }
 
         [HttpPost]
-        public IActionResult CreateCustomer([FromQuery]CustomerDTO customerDTO)
+        public IActionResult CreateCustomer([FromBody] CustomerModel customerDTO)
         {
             _dataRep.CreateCustomer(_mapper.Map<Customer>(customerDTO));
 
             return Ok();
         }
 
-        [HttpPut]
-        public IActionResult UpdateCustomer([FromQuery] CustomerDTO customerDTO)
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateCustomer(int id, [FromBody] CustomerModel customerDTO)
         {
+            customerDTO.CustomerId = id;
             _dataRep.UpdateCustomer(_mapper.Map<Customer>(customerDTO));
 
             return Ok();
@@ -53,9 +54,9 @@ namespace WebApi.Controllers
 
 
         [HttpGet("{customerId:int}/Orders")]
-        public IEnumerable<OrderDTO> GetCustomerOrders(int customerId)
+        public IEnumerable<OrderBaseModel> GetCustomerOrders(int customerId)
         {
-            return _mapper.Map<IEnumerable<OrderDTO>>(_dataRep.GetCustomerOrders(customerId));
+            return _mapper.Map<IEnumerable<OrderBaseModel>>(_dataRep.GetCustomerOrders(customerId));
         }
     }
 }

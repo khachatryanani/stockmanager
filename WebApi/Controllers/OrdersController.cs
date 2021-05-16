@@ -24,21 +24,26 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderDTO> GetOrders()
+        public IEnumerable<OrderModel> GetOrders()
         {
-            return _mapper.Map<IEnumerable<OrderDTO>>(_dataRep.GetOrders());
+            return _mapper.Map<IEnumerable<OrderModel>>(_dataRep.GetOrders());
         }
 
         [HttpGet("{id:int}")]
-        public IEnumerable<OrderItemDTO> GetOrderItems(int id)
+        public OrderModel GetOrder(int id)
         {
-            return _mapper.Map<IEnumerable<OrderItemDTO>>(_dataRep.GetOrderItems(id));
+            return _mapper.Map<OrderModel>(_dataRep.GetOrder(id));
         }
 
 
+        [HttpGet("{id:int}/OrderItems")]
+        public IEnumerable<OrderItemModel> GetOrderItems(int id)
+        {
+            return _mapper.Map<IEnumerable<OrderItemModel>>(_dataRep.GetOrderItems(id));
+        }
 
         [HttpPost]
-        public IActionResult CreateOrder([FromQuery] OrderDTO order)
+        public IActionResult CreateOrder([FromBody] OrderBaseModel order)
         {
             _dataRep.CreateOrder(_mapper.Map<Order>(order));
 

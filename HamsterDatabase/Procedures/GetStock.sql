@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[GetStock]
-	@stockedProductId int
+	@productId int
 AS
-	SELECT StockWithExpirationDates.ProductId, StockWithExpirationDates.ProductName, StockWithExpirationDates.ProductType, SUM(StockWithExpirationDates.ActualQuantity) AS Total, AVG(StockWithExpirationDates.UnitPrice) AS AverageUnitPrice,  StockWithExpirationDates.MeasurementUnit
+	SELECT StockWithExpirationDates.StockId, StockWithExpirationDates.ProductId, StockWithExpirationDates.ProductName, StockWithExpirationDates.ProductType, SUM(StockWithExpirationDates.ActualQuantity) AS Total, AVG(StockWithExpirationDates.UnitPrice) AS AverageUnitPrice,  StockWithExpirationDates.MeasurementUnit
 	FROM StockWithExpirationDates
-	WHERE ExpirationDate > '2020-12-12' AND StockWithExpirationDates.ActualQuantity > 0 AND StockWithExpirationDates.ProductId = @stockedProductId
-	GROUP BY StockWithExpirationDates.ProductId, StockWithExpirationDates.ProductName, StockWithExpirationDates.ProductType, StockWithExpirationDates.MeasurementUnit
+	WHERE ExpirationDate > '2020-12-12' AND StockWithExpirationDates.ActualQuantity > 0 AND StockWithExpirationDates.ProductId = @productId
+	GROUP BY StockWithExpirationDates.StockId, StockWithExpirationDates.ProductId, StockWithExpirationDates.ProductName, StockWithExpirationDates.ProductType, StockWithExpirationDates.MeasurementUnit
 RETURN
 
