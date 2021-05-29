@@ -13,9 +13,7 @@ namespace DataAccess
         public Worker Receiver { get; set; }
         public string Status { get; set; }
         public DateTime DeliveryDate { get; set; }
-
         public Worker Deliverer { get; set; }
-
         public List<OrderItem> OrderItemList { get; set; }
     }
 }

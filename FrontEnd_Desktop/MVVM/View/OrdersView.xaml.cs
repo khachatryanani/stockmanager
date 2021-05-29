@@ -32,34 +32,33 @@ namespace FrontEnd_Desktop.MVVM.View
 
         }
 
-
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        private void CreateOrderBtn_Click(object sender, RoutedEventArgs e)
         {
-            CreateNewOrderSection.Visibility = Visibility.Hidden;
-            VieworderDetailsSection.Visibility = Visibility.Hidden;
+            TopCloseButton.Visibility = Visibility.Visible;
+            BottomCloseButton.Visibility = Visibility.Hidden;
+        }
+
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            TopCloseButton.Visibility = Visibility.Hidden;
+            BottomCloseButton.Visibility = Visibility.Hidden;
         }
 
         private void ViewDetailsBtn_Click(object sender, RoutedEventArgs e)
         {
-            CreateNewOrderSection.Visibility = Visibility.Hidden;
-            VieworderDetailsSection.Visibility = Visibility.Visible;
+            if (OrdersListView.SelectedItem != null)
+            {
+                BottomCloseButton.Visibility = Visibility.Visible;
+                TopCloseButton.Visibility = Visibility.Hidden;
+            }
         }
 
-        private void CreateNewOrderBtn_Click(object sender, RoutedEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CreateNewOrderSection.Visibility = Visibility.Visible;
-            VieworderDetailsSection.Visibility = Visibility.Hidden;
-
-            //var products = OrderViewModel.GetProducts();
-            //ProductsCombo.ItemsSource = products;
-
-            //var workers = OrderViewModel.GetWorkers();
-            //WorkersCombo.ItemsSource = workers;
-
-            //var customers = OrderViewModel.GetCustomers();
-            //CustomersCombo.ItemsSource = customers;
-
+            OrdersListView.UnselectAll();
         }
+    
 
         private void AddItemBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -87,53 +86,7 @@ namespace FrontEnd_Desktop.MVVM.View
           
         }
 
-        private void SubmitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //List<OrderItemDTO> orderItems = new List<OrderItemDTO>();
-
-            //for (int i = 0; i < OrderItemsStack.Children.Count; i++)
-            //{
-            //    if (OrderItemsStack.Children[i] is ComboBox) 
-            //    {
-            //        var productId = ((OrderItemsStack.Children[i] as ComboBox).SelectedItem as ProductDTO).ProductId;
-            //        orderItems.Add(new OrderItemDTO { ProductId = productId });
-            //    }
-
-            //    if (OrderItemsStack.Children[i] is TextBox)
-            //    {
-            //        orderItems[orderItems.Count - 1].Quantity = Convert.ToInt32((OrderItemsStack.Children[i] as TextBox).Text);
-            //    }
-
-            //}
-
-            //var order = new OrderDTO
-            //{
-            //    CustomerId = (CustomersCombo.SelectedItem as CustomerDTO).CustomerId,
-            //    ReceivedDate = OrderDatePicker.Text,
-            //    ReceivedById = (WorkersCombo.SelectedItem as WorkerDTO).WorkerId,
-            //    OrderItemList = orderItems
-            //};
-
-            //OrderViewModel.CreateNewOrder(order);
-            UpdateViewSource();
-            AlertSuccess();
-        }
-
-        private void UpdateViewSource()
-        {
-            //var ordersList = OrderViewModel.GetOrders();
-            //OrdersListView.ItemsSource = ordersList;
-
-            CreateNewOrderSection.Visibility = Visibility.Hidden;
-            VieworderDetailsSection.Visibility = Visibility.Hidden;
-        }
-
-        private void AlertSuccess()
-        {
-            MessageWindow window = new MessageWindow();
-            window.Show();
-        }
-
+      
     }
 
 }

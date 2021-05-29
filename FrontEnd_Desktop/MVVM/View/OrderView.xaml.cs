@@ -28,7 +28,7 @@ namespace FrontEnd_Desktop.MVVM.View
         private void AddItemBtn_Click(object sender, RoutedEventArgs e)
         {
             var orderItem = new OrderItemDTO();
-            OrdersViewModel.Order.OrderItemList.Add(orderItem);
+            OrdersViewModel.Order.OrderItems.Add(orderItem);
             ComboBox combo = new ComboBox();
             OrderItemsStack.Children.Add(combo);
             combo.VerticalAlignment = VerticalAlignment.Top;
@@ -55,7 +55,14 @@ namespace FrontEnd_Desktop.MVVM.View
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
         {
             var items = OrderItemsStack.Children;
-            var list = OrdersViewModel.Order.OrderItemList;
+            var list = OrdersViewModel.Order.OrderItems;
+            AlertSuccess();
+        }
+
+        private void AlertSuccess()
+        {
+            MessageWindow window = new MessageWindow();
+            window.Show();
         }
     }
 }

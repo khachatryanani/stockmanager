@@ -10,16 +10,23 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
 {
     public class OrdersViewModel: ObservableObject
     {
-        private readonly DataRep _dataRepository = new DataRep(ConfigurationManager.ConnectionStrings["SQLServer"].ConnectionString);
+        private readonly DataRepService _dataRepository = new DataRepService(ConfigurationManager.ConnectionStrings["SmarterASP"].ConnectionString);
 
         private object _rightSideView;
         private object _bottomSideView;
 
-        public static OrderDTO Order { get; set; }
+       //commands
         public RelayCommand CreateOrderViewCommand { get; set; }
+        public RelayCommand SubmitOrderViewCommand { get; set; }
+        public RelayCommand ViewOrderItemsCommand { get; set; }
+        public RelayCommand SelectedItemChangedCommand { get; set; }
+        public RelayCommand AcceptOrderCommand { get; set; }
+        public RelayCommand CloseOrderViewCommand { get; set; }
+        public RelayCommand CloseOrderItemsViewCommand { get; set; }
 
-
+        public static OrderDTO Order { get; set; }
         public List<OrderDTO> Orders { get; set; }
+        public static OrderDTO SelectedOrder { get; set; }
         public List<ProductDTO> ProductList { get; set; }
         public List<WorkerDTO> WorkerList { get; set; }
         public List<CustomerDTO> CustomerList { get; set; }
@@ -62,6 +69,39 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
             {
                 RightSideView = new OrderViewModel();
                 BottomSideView = null;
+            });
+
+            SubmitOrderViewCommand = new RelayCommand(o =>
+            {
+                _dataRepository.CreateOrder(Order);
+                RightSideView = null;
+            });
+
+            CloseOrderViewCommand = new RelayCommand(o =>
+            {
+                RightSideView = null;
+            });
+
+            CloseOrderItemsViewCommand = new RelayCommand(o =>
+            {
+                BottomSideView = null;
+            });
+
+            //SelectedItemChangedCommand = new RelayCommand(o =>
+            //{
+            //    //if (SelectedStock != null)
+            //    //{
+            //    //    SelectedProduct = SelectedStock.StockedProduct;
+            //    //}
+            //});
+
+            ViewOrderItemsCommand = new RelayCommand(o =>
+            {
+                if (SelectedOrder != null)
+                {
+                    BottomSideView = new OrderItemsViewModel();
+                    RightSideView = null;
+                }
             });
         }
     }

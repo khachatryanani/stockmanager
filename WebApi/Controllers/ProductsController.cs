@@ -23,10 +23,35 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody] ProductModel productDTO)
+        {
+            _dataRep.CreateProduct(_mapper.Map<Product>(productDTO));
+
+            return Ok();
+        }
+
         [HttpGet]
         public IEnumerable<ProductModel> GetProducts()
         {
             return _mapper.Map<IEnumerable<ProductModel>>(_dataRep.GetProducts());
+        }
+
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateProduct(int id, [FromBody] ProductModel productDTO)
+        {
+            productDTO.ProductId = id;
+            _dataRep.UpdateProduct(_mapper.Map<Product>(productDTO));
+
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteProduct(int id)
+        {
+            _dataRep.DeleteProduct(id);
+
+            return Ok();
         }
     }
 }

@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Order";
+    var products = ViewData["Products"] as List<ProductViewModel>;
+    var workers = ViewData["Workers"] as List<WorkerViewModel>;
+    var customers = ViewData["Customers"] as List<CustomerViewModel>;
+
+}
+@model OrderBaseViewModel;
+
+<form method="post" asp-controller="Orders" asp-action="CreateOrder" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Customer</label>
+        <select class="col-sm-4 form-control" asp-for="customerId">
+            @foreach (var customer in customers)
+            {
+                <option value="@customer.customerId">@customer.name</option>
+            }
+        </select>
+    </div>
+    <label class="col-sm-2 control-label" style="color: #FF4C00 !important">Order Items</label>
+    <input type="button" class="btn btn-primary text-right" onclick="AddDiv();" value="+ Add Order Item">
+    <hr />
+    <div id="OrderItems">
+        <div id="OrderItem">
+            <div class="form-inline">
+                <div class="form-group">
+                    <select class="col-sm-6 form-control" asp-for="orderItems[0].productId">
+                        @foreach (var product in products)
+                        {
+                            <option value="@product.productId">@product.name @product.unit</option>
+                        }
+                    </select>
+                    <div style="width:45px"></div>
+                    <input asp-for="orderItems[0].quantity" class="col-sm-2 form-control" />
+                </div>
+            </div>
+        </div>
+        <div><br /></div>
+    </div>
+    <hr />
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Received Date</label>
+        <input asp-for="@Model.receivedDate" type="date" class="col-sm-4 form-control" />
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Received By</label>
+        <select class="col-sm-4 form-control" asp-for="@Model.receiverId">
+            @foreach (var worker in workers)
+            {
+                <option value="@worker.workerId">@worker.name @worker.surname</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Create Order</button>
+</form>
+<br />
+
+<a asp-controller="Orders" asp-action="Index">< Back to Orders</a>
+
+<script>
+    function AddDiv() {
+
+        var itm = document.getElementById("OrderItem");
+        
+        var count = document.getElementById("OrderItems").childElementCount;
+        var innerData = "<div class='form-inline'><div class='form-group'><select class='col-sm-6 form-control' data-val='true' data-val-required='The productId field is required.' id='orderItems_" + count + "__productId' name='orderItems[" + count + "].productId'>"
+            + "<option value='10'>Milky Cat 1l 4-pack</option><option value='11'>CherryBoom 0.25l 12-pack</option><option value='12'>Activy 0.5l 8-pack</option><option value='13'>Heaven 1kg 4-pack</option><option value='14'>Drink&amp;Go 0.5l 8-pack</option>"
+            + "< option value = '15' > Homeland 0.25l 12 - pack</option ><option value='16'>Marettes Diet 0.25l 12-pack</option><option value='17'>Milky Cat 0.5l 8-pack</option></select><div style='width: 45px'></div>"
+            + "<input class='col-sm-2 form-control' type='number' data-val='true' data-val-required='The quantity field is required.' id='orderItems_" + count + "__quantity' name='orderItems[" + count +"].quantity' value='0'></div></div><div><br /></div>";
+        var cln = itm.cloneNode(true);
+        cln.innerHTML = innerData;
+        document.getElementById("OrderItems").appendChild(cln);
+    }
+</script>

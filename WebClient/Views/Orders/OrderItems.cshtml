@@ -1,0 +1,112 @@
+﻿
+@{ this.Layout = "_Layout"; }
+@model List<OrderItemViewModel>
+@{
+
+    var order = ViewData["Order"] as OrderViewModel;
+    bool allAccepted = false;
+    bool allDelivered = false;
+    if(@Model.All(o => o.orderItemStatus == "Accepted"))
+    {
+        allAccepted = true;
+    }
+
+    if(@Model.All(o => o.orderItemStatus == "Delivered"))
+    {
+        allAccepted = true;
+        allDelivered = true;
+    }
+}
+@*@if (@Model.All(o => o.orderItemStatus == "Accepted"))
+    {*@
+@*@using (Html.BeginForm("UpdateOrder","Orders"))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        @Html.Hidden("Action", "Approve Delivery")
+        @Html.Hidden("OrderId", @Model[0].orderId)
+        @Html.Hidden("DeliveryDate", DateTime.Now.ToShortDateString())
+        @Html.Hidden("DelivererId", 100)
+
+        <input type="submit" class="btn btn-primary" value="Approve Delivery" />
+    }*@
+@*}
+    else if (!@Model.All(o => o.orderItemStatus == "Delivered"))
+    {
+        @using (Html.BeginForm())
+        {
+            @Html.Hidden("Action", "Accept Order")
+            @Html.Hidden("OrderId", @Model[0].orderId)
+
+            <input type="submit" class="btn btn-primary" value="Accept Order" />
+        }
+    }*@
+@{if(!allDelivered)
+{
+    <form method="post" asp-controller="Orders" asp-action="UpdateOrder" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <input type="hidden" asp-for="@order.orderId." value="@order.orderId" />
+            <input type="hidden" asp-for="@order.customerId." value="@order.customerId" />
+            <input type="hidden" asp-for="@order.receiverId" value="@order.receiverId" />
+            <input type="hidden" asp-for="@order.receivedDate" value="@order.receivedDate" />
+            @{
+            if(allAccepted)
+            {
+                <input type="hidden" asp-for="@order.delivererId" value="@order.receiverId" />
+                <input type="hidden" asp-for="@order.deliveryDate" value="@DateTime.Now.ToShortDateString()" />
+                <input type="hidden" asp-for="@order.status" value="Delivered" />
+            }
+            else
+            {
+                <input type="hidden" asp-for="@order.status" value="Accepted" />
+            }
+            }
+
+        </div>
+        @{
+            if(allAccepted)
+            {
+                <button type="submit" class="btn btn-success" asp-route-id="@order.orderId">Approve Delivery</button>
+            }
+            else
+            {
+                 <button type="submit" class="btn btn-success" asp-route-id="@order.orderId">Accept Order</button>
+            }
+        }
+        
+    </form>
+    <br />
+}
+
+}
+
+
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Unit</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+            <tr>
+                <td>@o.productName</td>
+                <td>@o.unit</td>
+                <td>@o.unitPrice</td>
+                <td>@o.quantity</td>
+                <td>@o.total</td>
+                <td>@o.orderItemStatus</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<a asp-controller="Orders" asp-action="Index">< Back to Orders</a>

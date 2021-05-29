@@ -1,0 +1,107 @@
+﻿@{ this.Layout = "_Layout"; }
+@model List<WorkerViewModel>
+@{
+    var orderedList = @Model.OrderBy(w => w.name);
+    var worker = new WorkerViewModel();
+}
+<a class="btn btn-success" asp-controller="Workers" asp-action="Worker">Create Worker</a>
+<div><br /></div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{ var inputId = 1;
+                var spanId = -1;
+
+                foreach (var w in orderedList)
+                {
+                    var saveButtonId = "save" + inputId;
+                    var editButtonId = "edit" + inputId;
+
+                <tr>
+
+                    <td>@w.workerId</td>
+                    <td><input class="@inputId" type="hidden" asp-for="@worker.name" value="@w.name"><span class="@spanId">@w.name</span></td>
+                    <td><input class="@inputId" type="hidden" asp-for="@worker.surname" value="@w.surname"><span class="@spanId">@w.surname</span></td>
+                    <td><input class="@inputId" type="hidden" asp-for="@worker.email" value="@w.email"><span class="@spanId">@w.email</span> </td>
+                    <td>
+                        <input id="@editButtonId" class="btn btn-warning" type="button" onclick="Edit(@inputId)" value="Edit">
+                        <input id="@saveButtonId" class="btn btn-success" type="hidden" onclick="Save(@inputId, @w.workerId)" value="Save">
+                        <a class="btn btn-danger" type="button" asp-action="DeleteWorker" asp-controller="Workers" asp-route-id="@w.workerId">Delete</a>
+                    </td>
+
+                </tr>
+
+                    inputId++;
+                    spanId--;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<a asp-controller="Administration" asp-action="Index">< Back to Admin Panel</a>
+
+<form method="post" name="saveForm" style="display:none" asp-controller="Workers" asp-action="UpdateWorker" enctype="multipart/form-data">
+    <div class="form-group">
+        <input id="formFieldId" type="hidden" asp-for="@worker.workerId" />
+        <input class="formFields" type="hidden" asp-for="@worker.name" />
+        <input class="formFields" type="hidden" asp-for="@worker.surname" />
+        <input class="formFields" type="hidden" asp-for="@worker.email" />
+    </div>
+    <button type="submit"></button>
+</form>
+<script>
+
+    function Edit(id) {
+        var editButton = document.getElementById('edit' + id);
+        if (editButton.value == 'Cancel') {
+            var inputs = document.getElementsByClassName(id);
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].type = 'hidden';
+            }
+            var spans = document.getElementsByClassName('-' + id);
+            for (var i = 0; i < spans.length; i++) {
+                spans[i].style.display = '';
+                inputs[i].value = spans[i].innerHTML;
+            }
+            editButton.value = 'Edit';
+            var saveButton = document.getElementById('save' + id);
+            saveButton.type = 'hidden';
+            return;
+        }
+        var inputs = document.getElementsByClassName(id);
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].type = 'text';
+        }
+        var spans = document.getElementsByClassName('-' + id);
+        for (var i = 0; i < spans.length; i++) {
+            spans[i].style.display = 'none';
+        }
+
+        var saveButton = document.getElementById('save' + id);
+        saveButton.type = 'button';
+
+        var editButton = document.getElementById('edit' + id);
+        editButton.value = 'Cancel';
+    }
+
+    function Save(id, workerId) {
+        var inputs = document.getElementsByClassName(id);
+        var formFields = document.getElementsByClassName('formFields');
+        for (var i = 0; i < inputs.length; i++) {
+            formFields[i].value = inputs[i].value;
+        }
+        document.getElementById('formFieldId').value = workerId;
+
+        document.saveForm.submit();
+    }
+</script>

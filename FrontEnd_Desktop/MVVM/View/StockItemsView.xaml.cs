@@ -22,5 +22,11 @@ namespace FrontEnd_Desktop.MVVM.View
         {
             InitializeComponent();
         }
+
+        private void AlertSuccess()
+        {
+            MessageWindow window = new MessageWindow();
+            window.Show();
+        }
     }
 }

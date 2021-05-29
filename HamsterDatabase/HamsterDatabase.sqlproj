@@ -79,7 +79,7 @@
     <Build Include="Procedures\GetOrdersOfCustomer.sql" />
     <Build Include="Procedures\CreateStockItem.sql" />
     <Build Include="Procedures\CreateOrder.sql" />
-    <Build Include="Procedures\AcceptOrderItems.sql" />
+    <Build Include="Procedures\AcceptOrderItem.sql" />
     <Build Include="Views\AvailableStockItems.sql" />
     <Build Include="Procedures\GetProducts.sql" />
     <Build Include="Procedures\GetWorkers.sql" />
@@ -103,6 +103,11 @@
     <Build Include="Procedures\GetCustomer.sql" />
     <Build Include="Procedures\UpdateCustomer.sql" />
     <Build Include="Procedures\CreateCustomer.sql" />
+    <Build Include="Procedures\UpdateOrder.sql" />
+    <Build Include="Procedures\UpdateOrderItem.sql" />
+    <Build Include="Procedures\CreateProduct.sql" />
+    <Build Include="Procedures\DeleteProduct.sql" />
+    <Build Include="Procedures\UpdateProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HamsterDatabase.publish.xml" />

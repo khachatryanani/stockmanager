@@ -23,6 +23,14 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost]
+        public IActionResult CreateCustomer([FromBody] CustomerModel customerDTO)
+        {
+            _dataRep.CreateCustomer(_mapper.Map<Customer>(customerDTO));
+
+            return Ok();
+        }
+
         [HttpGet]
         public IEnumerable<CustomerModel> GetCustomers()
         {
@@ -33,14 +41,6 @@ namespace WebApi.Controllers
         public CustomerModel GetCustomer(int id)
         {
             return _mapper.Map<CustomerModel>(_dataRep.GetCustomer(id));
-        }
-
-        [HttpPost]
-        public IActionResult CreateCustomer([FromBody] CustomerModel customerDTO)
-        {
-            _dataRep.CreateCustomer(_mapper.Map<Customer>(customerDTO));
-
-            return Ok();
         }
 
         [HttpPut("{id:int}")]

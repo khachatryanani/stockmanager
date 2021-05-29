@@ -28,8 +28,8 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IDataRepository, DataRepository>( dt => new DataRepository(connectionString));
-            services.AddSwaggerGen(c => 
+            services.AddDataAccess(connectionString);
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Hamster Stock Manager", Version = "v1" });
             });

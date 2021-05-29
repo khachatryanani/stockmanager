@@ -12,6 +12,7 @@
     <None Remove="HamsterLogo.png" />
     <None Remove="HamterLogo.ico" />
     <None Remove="MVVM\View\Close.png" />
+    <None Remove="MVVM\View\Temporary.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,9 @@
     </Resource>
     <Resource Include="HamterLogo.ico" />
     <Resource Include="MVVM\View\Close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="MVVM\View\Temporary.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

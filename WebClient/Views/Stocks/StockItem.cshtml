@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "StockItem";
+    var products = ViewData["Products"] as List<ProductViewModel>;
+    var workers = ViewData["Workers"] as List<WorkerViewModel>;
+
+}
+@model StockItemBaseViewModel
+
+<form method="post" asp-controller="Stocks" asp-action="AddStockItem" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Product</label>
+        <select class="col-sm-4 form-control" asp-for="productId">
+            @foreach (var product in products)
+            {
+                <option value="@product.productId">@product.name @product.unit</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Unit Price</label>
+        <input asp-for="unitPrice" type="number" class="col-sm-4 form-control" />
+        <span asp-validation-for="unitPrice"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Quantity</label>
+        <input asp-for="quantity" class="col-sm-4 form-control" />
+        <span asp-validation-for="quantity"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Production Date</label>
+        <input asp-for="productionDate" type="date" class="col-sm-4 form-control" />
+        <span asp-validation-for="productionDate"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Stocked Date</label>
+        <input asp-for="stockedDate" type="date" class="col-sm-4 form-control" />
+        <span asp-validation-for="stockedDate"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Created By</label>
+            <select class="col-sm-4 form-control" asp-for="createdById">
+                @foreach (var worker in workers)
+                {
+                    <option value="@worker.workerId">@worker.name @worker.surname</option>
+                }
+            </select>
+    </div>
+    <button type="submit" class="btn btn-success">Add StockItem</button>
+</form>
+<br />
+<a asp-controller="Stocks" asp-action="Index">< Back to Stocks</a>

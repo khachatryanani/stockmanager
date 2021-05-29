@@ -1,0 +1,124 @@
+﻿@{ this.Layout = "_Layout"; }
+@model List<ProductViewModel>
+@{
+    var orderedList = @Model.OrderBy(p => p.name);
+    var product = new ProductViewModel();
+}
+
+<a class="btn btn-success" asp-controller="Products" asp-action="Product">Create Product</a>
+<div><br /></div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th >Product Type</th>
+                <th>Measurement Unit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var inputId = 1;
+                var spanId = -1;
+
+                foreach (var p in orderedList)
+                {
+                    var saveButtonId = "save" + inputId;
+                    var editButtonId = "edit" + inputId;
+
+                        <tr>
+
+                            <td>@p.productId</td>
+                            <td><input class="@inputId" type="text" asp-for="@product.name" value="@p.name" style="display:none"><span class="@spanId">@p.name</span></td>
+                            <td>
+                                <select class="@inputId form-control" asp-for="@product.typeId" style="display:none">
+                                    <option value="1">Milk</option>
+                                    <option value="2">Yogurt</option>
+                                    <option value="3">Drink</option>
+                                    <option value="4">Cheese</option>
+                                    <option value="5">Cream</option>
+                                </select>
+                                <span class="@spanId">@p.type</span>
+                            </td>
+                            <td>
+                                <select class="@inputId form-control" asp-for="@product.unitId" style="display:none">
+                                    <option value="1">1kg 4-pack</option>
+                                    <option value="2">0.25l 12-pack</option>
+                                    <option value="3">0.5l 8-pack</option>
+                                    <option value="4">1l 4-pack</option>
+                                </select>
+                                <span class="@spanId">@p.unit</span>
+                            </td>
+                            <td>
+                                <input id="@editButtonId" class="btn btn-warning" type="button" onclick="Edit(@inputId)" value="Edit">
+                                <input id="@saveButtonId" class="btn btn-success" type="hidden" onclick="Save(@inputId, @p.productId)" value="Save">
+                                <a class="btn btn-danger" type="button" asp-action="DeleteProduct" asp-controller="Products" asp-route-id="@p.productId">Delete</a>
+                            </td>
+
+                        </tr>
+
+                    inputId++;
+                    spanId--;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<a asp-controller="Administration" asp-action="Index">< Back to Admin Panel</a>
+<form method="post" name="saveForm" style="display:none" asp-controller="Products" asp-action="UpdateProduct" enctype="multipart/form-data">
+    <div class="form-group">
+        <input id="formFieldId" type="hidden" asp-for="@product.productId" />
+        <input class="formFields" type="hidden" asp-for="@product.name" />
+        <input class="formFields" type="hidden" asp-for="@product.typeId" />
+        <input class="formFields" type="hidden" asp-for="@product.unitId" />
+    </div>
+    <button type="submit"></button>
+</form>
+
+<script>
+
+    function Edit(id) {
+        var editButton = document.getElementById('edit' + id);
+        if (editButton.value == 'Cancel') {
+            var inputs = document.getElementsByClassName(id);
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].style.display = 'none';
+            }
+            var spans = document.getElementsByClassName('-' + id);
+            for (var i = 0; i < spans.length; i++) {
+                spans[i].style.display = '';
+                inputs[i].value = spans[i].innerHTML;
+            }
+            editButton.value = 'Edit';
+            var saveButton = document.getElementById('save' + id);
+            saveButton.type = 'hidden';
+            return;
+        }
+        var inputs = document.getElementsByClassName(id);
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].style.display = '';
+        }
+        var spans = document.getElementsByClassName('-' + id);
+        for (var i = 0; i < spans.length; i++) {
+            spans[i].style.display = 'none';
+        }
+
+        var saveButton = document.getElementById('save' + id);
+        saveButton.type = 'button';
+
+        var editButton = document.getElementById('edit' + id);
+        editButton.value = 'Cancel';
+    }
+
+    function Save(id, modelId) {
+        var inputs = document.getElementsByClassName(id);
+        var formFields = document.getElementsByClassName('formFields');
+        for (var i = 0; i < inputs.length; i++) {
+            formFields[i].value = inputs[i].value;
+        }
+        document.getElementById('formFieldId').value = modelId;
+
+        document.saveForm.submit();
+    }
+</script>

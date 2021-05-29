@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="FrontEnd_Desktop.MVVM.View.OrderItemsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FrontEnd_Desktop.MVVM.View"
+              xmlns:viewModel ="clr-namespace:FrontEnd_Desktop.MVVM.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="720">
+    <UserControl.DataContext>
+        <viewModel:OrderItemsViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Border x:Name="VieworderDetailsSection"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Background="#F3F0F0"
+                Visibility="Visible">
+            <Border.Effect>
+                <DropShadowEffect Direction="900" 
+                                  ShadowDepth="4"
+                                  Color="Black"
+                                 Opacity="0.6"
+                                 BlurRadius="10"/>
+            </Border.Effect>
+            <Grid>
+                <Button Name="AcceptOrderBtn" 
+                Content="Accept Order" 
+                HorizontalAlignment="Left" 
+                Margin="10,200,0,0" VerticalAlignment="Top" 
+                Width="150" 
+                Height="30"
+                Foreground="White"
+                Background="#FF4C00"
+                Command="{Binding AcceptOrderCommand}"
+                        Click="SubmitBtn_Click"/>
+
+                <Label Content="Order Info" 
+                       Margin="10,10,0,0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       FontSize="18" 
+                       Width="166" Height="36"
+                       Foreground="#FF4C00"
+                       FontWeight="Bold"></Label>
+                <ListView x:Name="OrderDetailsListView" HorizontalAlignment="Left" 
+                  Height="Auto"
+                  MaxHeight="450"
+                  Width="Auto"
+                  Margin="190,40,0,0"
+                  VerticalAlignment="Top" 
+                  BorderThickness="0"
+                  Background="Transparent"
+                  ItemsSource="{Binding Path=OrderItems}"
+                  ItemContainerStyle="{StaticResource ListViewTheme}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="Product" DisplayMemberBinding="{Binding OrderedProduct.Name}" Width="80"/>
+                            <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding OrderedProduct.Unit}" Width="80"/>
+                            <GridViewColumn Header="Unit Price" DisplayMemberBinding="{Binding OrderedProduct.Price}" Width="80"/>
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="80"/>
+                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding OrderItemStatus}" Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label Name="CustomerNameLabel" Content="{Binding Order.Customer.Name, Mode=TwoWay}" 
+                    Margin="10,84,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Name="OrderTotalLabel" Content="{Binding Order.TotalPrice, Mode=TwoWay}" 
+                    Margin="79,115,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Name="OrderStatusLabel" Content="{Binding Order.Status, Mode=TwoWay}" 
+                    Margin="79,146,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label x:Name="OrderIdLabel" Content="{Binding Order.OrderId, Mode=TwoWay}" 
+                    Margin="10,37,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#242E38"/>
+                <Label Content="Customer Name"  
+                    Margin="10,59,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+                <Label Content="Total Price"  
+                    Margin="10,115,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+                <Label Content="Status"  
+                    Margin="10,146,0,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Foreground="#FF4C00"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

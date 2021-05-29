@@ -21,8 +21,6 @@
             <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
 
-
-
         <ListView x:Name="InStockListView" HorizontalAlignment="Center" 
                   Height="Auto"
                   MaxHeight="450"
@@ -47,7 +45,7 @@
                 <GridView >
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding StockedProduct.ProductId}" Width="100" />
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding StockedProduct.Name}" Width="100"/>
-                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding StockedProduct.Type}" Width="100"/>
+                    <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding StockedProduct.Unit}" Width="100"/>
                     <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding TotalQuantity}" Width="100"/>
                     <GridViewColumn Header="Unit Price" DisplayMemberBinding="{Binding StockedProduct.Price}" Width="100"/>
                     <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding StockedProduct.Unit}" Width="100"/>

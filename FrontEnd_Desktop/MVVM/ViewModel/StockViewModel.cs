@@ -10,11 +10,12 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
 {
     public class StockViewModel : ObservableObject
     {
-        private readonly DataRep _dataRepository = new DataRep(ConfigurationManager.ConnectionStrings["SQLServer"].ConnectionString);
+        private readonly DataRepService _dataRepository = new DataRepService(ConfigurationManager.ConnectionStrings["SmarterASP"].ConnectionString);
 
         private object _rightSideView;
         private object _bottomSideView;
 
+        //commands
         public RelayCommand AddStockItemViewCommand { get; set; }
         public RelayCommand SubmitStockItemViewCommand { get; set; }
         public RelayCommand CloseStockItemViewCommand { get; set; }
@@ -26,8 +27,6 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
         public static ProductDTO SelectedProduct { get; set; }
         public  StockDTO SelectedStock { get; set; }
         public StockItemDTO StockItem { get; set; }
-
-
         public List<StockDTO> Stock { get; set; }
         public List<ProductDTO> ProductList { get; set; }
         public List<WorkerDTO> WorkerList { get; set; }
@@ -61,7 +60,7 @@ namespace FrontEnd_Desktop.MVVM.ViewModel
 
         public StockViewModel()
         {
-            Stock = _dataRepository.GetStockItems();
+            Stock = _dataRepository.GetStocks();
             WorkerList = _dataRepository.GetWorkers();
             ProductList = _dataRepository.GetProducts();
 

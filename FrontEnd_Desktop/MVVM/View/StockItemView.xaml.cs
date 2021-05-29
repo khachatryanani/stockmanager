@@ -23,23 +23,17 @@ namespace FrontEnd_Desktop.MVVM.View
         {
             InitializeComponent();
         }
-
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Visibility = Visibility.Hidden;
-        }
-
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
         {
-            //var parent = VisualTreeHelper.GetParent(this);
-            //(parent as Grid).Children.Remove(this);
+            AlertSuccess();
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+
+        private void AlertSuccess()
         {
-            this.Visibility = Visibility.Hidden;
+            MessageWindow window = new MessageWindow();
+            window.Show();
         }
 
-       
     }
 }

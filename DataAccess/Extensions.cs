@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -21,6 +22,12 @@ namespace DataAccess
             }
 
             return dt;
+        }
+
+        public static IServiceCollection AddDataAccess(this IServiceCollection services, string connectionString) 
+        {
+            services.AddScoped<IDataRepository, DataRepository>(dt => new DataRepository(connectionString));
+            return services;
         }
     }
 }

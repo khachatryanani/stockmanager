@@ -23,25 +23,6 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public IEnumerable<OrderModel> GetOrders()
-        {
-            return _mapper.Map<IEnumerable<OrderModel>>(_dataRep.GetOrders());
-        }
-
-        [HttpGet("{id:int}")]
-        public OrderModel GetOrder(int id)
-        {
-            return _mapper.Map<OrderModel>(_dataRep.GetOrder(id));
-        }
-
-
-        [HttpGet("{id:int}/OrderItems")]
-        public IEnumerable<OrderItemModel> GetOrderItems(int id)
-        {
-            return _mapper.Map<IEnumerable<OrderItemModel>>(_dataRep.GetOrderItems(id));
-        }
-
         [HttpPost]
         public IActionResult CreateOrder([FromBody] OrderBaseModel order)
         {
@@ -50,5 +31,37 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IEnumerable<OrderModel> GetOrders([FromQuery] string status)
+        {
+            return _mapper.Map<IEnumerable<OrderModel>>(_dataRep.GetOrders(status));
+           
+        }
+
+        [HttpGet("{id:int}")]
+        public IEnumerable<OrderItemModel> GetOrderItems(int id)
+        {
+            return _mapper.Map<IEnumerable<OrderItemModel>>(_dataRep.GetOrderItems(id));
+        }
+
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateOrder([FromBody] OrderModel order)
+        {
+            var currentOrder = _dataRep.GetOrders(null).FirstOrDefault(o => o.OrderId == order.OrderId);
+            if (currentOrder.Status == "Pending" && order.Status == "Accepted")
+            {
+                _dataRep.TryAcceptOrder(_mapper.Map<Order>(order));
+                return NoContent();
+            }
+            else if (currentOrder.Status == "Accepted" && order.Status == "Delivered") 
+            {
+                _dataRep.TryApproveDelivery(_mapper.Map<Order>(order));
+                return NoContent();
+            }
+
+            order.Status = currentOrder.Status;
+            _dataRep.UpdateOrder(_mapper.Map<Order>(order));
+            return NoContent();
+        }
     }
 }

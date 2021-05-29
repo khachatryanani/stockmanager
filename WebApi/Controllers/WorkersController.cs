@@ -29,12 +29,6 @@ namespace WebApi.Controllers
             return _mapper.Map<IEnumerable<WorkerModel>>(_dataRep.GetWorkers());
         }
 
-        [HttpGet("{id:int}")]
-        public WorkerModel GetWorker(int id)
-        {
-            return _mapper.Map<WorkerModel>(_dataRep.GetWorker(id));
-        }
-
         [HttpPost]
         public IActionResult CreateWorker([FromBody] WorkerModel workerDTO)
         {
@@ -43,12 +37,10 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult DeleteWorker(int id)
+        [HttpGet("{id:int}")]
+        public WorkerModel GetWorker(int id)
         {
-            _dataRep.DeleteWorker(id);
-
-            return Ok();
+            return _mapper.Map<WorkerModel>(_dataRep.GetWorker(id));
         }
 
         [HttpPut("{id:int}")]
@@ -56,6 +48,14 @@ namespace WebApi.Controllers
         {
             workerDTO.WorkerId = id;
             _dataRep.UpdateWorker(_mapper.Map<Worker>(workerDTO));
+
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteWorker(int id)
+        {
+            _dataRep.DeleteWorker(id);
 
             return Ok();
         }

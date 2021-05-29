@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrontEnd_Desktop.MVVM.View"
            xmlns:data="clr-namespace:DataAccess;assembly=DataAccess"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:model="clr-namespace:FrontEnd_Desktop.MVVM.Model"
              
               xmlns:viewModel ="clr-namespace:FrontEnd_Desktop.MVVM.ViewModel"
@@ -34,7 +35,7 @@
                 Foreground="White"
                 Background="#FF4C00"
                 Command="{Binding CreateOrderViewCommand}"
-                Click="CreateNewOrderBtn_Click"/>
+                Click="CreateOrderBtn_Click"/>
         <Button Name="ViewDetailsBtn" 
                 Content="View Details"
                 HorizontalAlignment="Left" 
@@ -43,6 +44,7 @@
                 Height="30"
                 Foreground="White"
                 Background="#242E38"
+                Command="{Binding ViewOrderItemsCommand}" CommandParameter="{Binding SelectedItem, ElementName=OrdersListView}"
                 Click="ViewDetailsBtn_Click"/>
         <ListView x:Name="OrdersListView" HorizontalAlignment="Center" 
                   Height="Auto"
@@ -54,233 +56,63 @@
                   Grid.ColumnSpan="2"
                   Grid.RowSpan="2"
                   Background="Transparent"
-                  DataContext="{Binding Order}"
-                  ItemContainerStyle="{StaticResource ListViewTheme}">
+                   ItemsSource="{Binding Path=Orders}"
+                  ItemContainerStyle="{StaticResource ListViewTheme}"
+                  SelectedItem="{Binding SelectedOrder, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Header="Customer" DisplayMemberBinding="{Binding CustomerName}" Width="Auto"/>
+                    <GridViewColumn Header="Customer" DisplayMemberBinding="{Binding Customer.Name}" Width="Auto"/>
                     <GridViewColumn Header="Total Price" DisplayMemberBinding="{Binding TotalPrice}" Width="Auto"/>
                     <GridViewColumn Header="Received On" DisplayMemberBinding="{Binding ReceivedDate}" Width="Auto"/>
                     <GridViewColumn Header="Received By" DisplayMemberBinding="{Binding ReceivedBy}" Width="Auto"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="Auto"/>
                     <GridViewColumn Header="Delivered On" DisplayMemberBinding="{Binding DeliveryDate}" Width="Auto"/>
-                    <GridViewColumn Header="Delivered By" DisplayMemberBinding="{Binding DeliveryBy}" Width="Auto"/>
+                    <GridViewColumn Header="Delivered By" DisplayMemberBinding="{Binding DeliveredBy}" Width="Auto"/>
                 </GridView>
 
             </ListView.View>
         </ListView>
-        <Border Name="CreateNewOrderSection"
-                Background="#F3F0F0"
-                Grid.Column="1"
-                Grid.RowSpan="2" 
-                Visibility="Hidden">
-            <Border.Effect>
-                <DropShadowEffect Direction="180" 
-                                  ShadowDepth="4"
-                                  Color="Black"
-                                 Opacity="0.6"
-                                 BlurRadius="10"/>
-            </Border.Effect>
-
-            <Grid>
-                <Image Source="/MVVM/View/Close.png" Margin="1,10,231,572" MouseDown="Image_MouseDown"/>
-                <Label Content="Customer ID" FontSize="11" HorizontalAlignment="Left" Margin="23,83,0,0" VerticalAlignment="Top" Width="80" Height="22"/>
-
-                <Label Content="Order Date" FontSize="11" HorizontalAlignment="Left" Margin="24,140,0,0" VerticalAlignment="Top" Width="99" Height="24"/>
-                <Label Content="Record Created By" FontSize="11" HorizontalAlignment="Left" Margin="25,199,0,0" VerticalAlignment="Top" Width="108" Height="27"/>
-
-                <ComboBox x:Name="WorkersCombo" Height="30" HorizontalAlignment="Center" Margin="0,226,0,0" VerticalAlignment="Top" Width="200"/>
-
-                <DatePicker x:Name="OrderDatePicker" FontSize ="14" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="23,164,0,0" VerticalAlignment="Top" Width="200" Height="30"/>
-
-
-
-
-
-
-                <ComboBox x:Name="CustomersCombo"
-                          Height="30" HorizontalAlignment="Left" Margin="23,105,0,0" VerticalAlignment="Top" Width="200"/>
-                <Button x:Name="SubmitBtn" Background="#8BAB42" 
-                        Content="Create New Order" 
-                        Foreground="White"
-                        HorizontalAlignment="Center" 
-                        Height="30" Margin="0,490,0,0" 
-                        VerticalAlignment="Top" Width="200" 
-                        Click="SubmitBtn_Click"/>
-                <Button x:Name="CancelBtn" Background="Transparent" BorderThickness="0" Content="Cancel" HorizontalAlignment="Left" Height="30" Margin="73,525,0,0" VerticalAlignment="Top" Width="100"  />
-                <Label Content="Creating New Order" 
-                       HorizontalContentAlignment="Center"
-                       FontSize="18" HorizontalAlignment="Left" 
-                       Margin="4,33,0,0" VerticalAlignment="Top" 
-                       Width="238" Height="36"
-                       Foreground="#FF4C00"
-                       FontWeight="Bold"/>
-
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Left"
-                      Height="150"
-                      Width="200"
-                      Margin="25,300,0,0">
-                    <ScrollViewer HorizontalAlignment="Left" 
-                                  VerticalAlignment="Top"
-                                  Height="150"
-                                  Width="220" 
-                                  VerticalScrollBarVisibility="Auto">
-                        <StackPanel x:Name="OrderItemsStack">
-                            <ComboBox Name="ProductsCombo" 
-                                      HorizontalAlignment="Left" 
-                                      VerticalAlignment="Top"
-                                      Width="145" Height="30"
-                                      Margin="0,10,0,0"
-                                      Padding="10"/>
-
-                            <TextBox x:Name="QuantityTetxtBox"
-                                      Width="45" Height="30"
-                                     HorizontalAlignment="Left" 
-                                      VerticalAlignment="Top"
-                                     VerticalContentAlignment="Center"
-                                     HorizontalContentAlignment="Right"
-                                      Margin="155,-30,0,0" />
-                        </StackPanel>
-                    </ScrollViewer>
-                </Grid>
-
-                <!--<ListView x:Name="AddItemListView" HorizontalAlignment="Center" 
-                  Height="Auto"
-                  MaxHeight="150"
-                  MaxWidth="650"
-                  Margin="0,286,0,0" 
-                  VerticalAlignment="Top" 
-                  BorderThickness="0"
-                  Background="Transparent"
-                  Width="230">
-                    <ListView.View>
-                        <GridView >
-                            <GridViewColumn Header="Product" Width="160">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate >
-                                        <ComboBox 
-                                            Name="ProductsCombo" Width="140" Height="25" 
-                                            ItemsSource="{Binding Path=productList}"
-                 />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Quantity" Width="60">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox x:Name="QuantityTextBox" Width="40" Height="25" 
-                                                 VerticalContentAlignment="Center"
-                                                 HorizontalContentAlignment="Right"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                        </GridView>
-
-                    </ListView.View>
-                    <ListViewItem Background="Transparent">
-
-                    </ListViewItem>
-
-
-                </ListView>-->
-                <Border  Background="#F3F0F0" Margin="6,285,0,294"></Border>
-                <Label Content="Order Item" FontSize="11" HorizontalAlignment="Left" Margin="25,270,0,0" VerticalAlignment="Top" Width="80" Height="26"/>
-                <Button x:Name="AddItemBtn" 
-                        Background="Transparent" 
-                        Foreground="Blue" 
-                        Content="+ add item" 
-                        HorizontalAlignment="Left" 
-                        Margin="161,273,0,0" 
-                        VerticalAlignment="Top" 
-                        HorizontalContentAlignment="Left" 
-                        Width="64" BorderThickness="0" 
-                        Click="AddItemBtn_Click"/>
-            </Grid>
-
-
-        </Border>
-        <Border x:Name="VieworderDetailsSection"
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Background="#F3F0F0"
-                Visibility="Hidden">
-            <Border.Effect>
-                <DropShadowEffect Direction="900" 
-                                  ShadowDepth="4"
-                                  Color="Black"
-                                 Opacity="0.6"
-                                 BlurRadius="10"/>
-            </Border.Effect>
-            <Grid>
-                <Image Source="/MVVM/View/Close.png"  
-                       Margin="689,10,8,220"
-                       MouseDown="Image_MouseDown">
-
-                </Image>
-                <Button Name="AcceptOrderBtn" 
-                Content="Accept Order" 
-                HorizontalAlignment="Left" 
-                Margin="10,200,0,0" VerticalAlignment="Top" 
-                Width="150" 
-                Height="30"
-                Foreground="White"
-                Background="#FF4C00"
-                Click="CreateNewOrderBtn_Click"/>
-
-                <Label Content="Order Info" 
-                       Margin="10,10,0,0"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       FontSize="18" 
-                       Width="166" Height="36"
-                       Foreground="#FF4C00"
-                       FontWeight="Bold"></Label>
-                <ListView x:Name="OrderDetailsListView" HorizontalAlignment="Left" 
-                  Height="Auto"
-                  MaxHeight="450"
-                  Width="Auto"
-                  Margin="190,40,0,0"
-                  VerticalAlignment="Top" 
-                  BorderThickness="0"
-                  Background="Transparent"
-                  ItemContainerStyle="{StaticResource ListViewTheme}">
-                    <ListView.View>
-                        <GridView >
-                            <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="80"/>
-                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="80"/>
-                            <GridViewColumn Header="Unit Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
-                            <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding MeasurementUnit}" Width="80"/>
-                            <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="80"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Label Name="CustomerNameLabel" Content="*CustomerName*" 
-                    Margin="10,79,0,0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Foreground="#242E38"/>
-                <Label Name="OrderTotalLabel" Content="*OrderTotalPrice*" 
-                    Margin="10,110,0,0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Foreground="#242E38"/>
-                <Label Name="OrderStatusLabel" Content="*OrderStatus*" 
-                    Margin="10,140,0,0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Foreground="#242E38"/>
-                <Label x:Name="OrderIdLabel" Content="*OrderId*" 
-                    Margin="10,48,0,0"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Foreground="#242E38"/>
-            </Grid>
-        </Border>
-        <ContentControl x:Name="BottomSide"
+      
+        <ContentControl Name="RightSide"  Grid.Row="0"
                             Grid.Column="1"
                             Grid.RowSpan="2"
                             Content="{Binding RightSideView}"/>
+        <ContentControl x:Name="BottomSide" Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Content="{Binding BottomSideView}"/>
+        <Button x:Name="TopCloseButton" Grid.Column="1"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Visibility="Hidden"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding CloseOrderViewCommand}"
+                Click="CloseButton_Click">
+            <Image Source="/MVVM/View/Close.png" 
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"  
+                   Height="25" Width="25"/>
+        </Button>
+        <Button x:Name="BottomCloseButton" Grid.Column="1"
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Visibility="Hidden"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding CloseOrderItemsViewCommand}"
+                Click="CloseButton_Click">
+            <Image Source="/MVVM/View/Close.png"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"  
+                   Height="25" Width="25"/>
+        </Button>
     </Grid>
     
 </UserControl>

@@ -12,6 +12,6 @@ namespace WebApi.Models
         public int Quantity { get; set; }
         public string ProductionDate { get; set; }
         public string StockedDate { get; set; }
-        public string CreatedById { get; set; }
+        public int CreatedById { get; set; }
     }
 }

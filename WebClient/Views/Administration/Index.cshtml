@@ -1,0 +1,46 @@
+﻿@{ this.Layout = "_Layout"; }
+<div class="row">
+
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-header" style="background-color: #EAC43D !important"></div>
+            <a asp-action="Index" asp-controller="Products"
+               onmouseover="this.style.backgroundColor='#EAEAEA';"
+               onmouseout="this.style.backgroundColor='#FFFFFF'"
+               style="border-color: transparent; background-color: #FFFFFF">
+                <div class="card-body" style="height: 200px; text-align: center">
+                    <h5 class="card-title">Manage Products</h5>
+                    <img src="~/Products.png" width="150" height="150">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-header" style="background-color: #2A5C99 !important"></div>
+            <a asp-action="Index" asp-controller="Customers"
+               onmouseover="this.style.backgroundColor='#EAEAEA';"
+               onmouseout="this.style.backgroundColor='#FFFFFF'"
+               style="border-color: transparent; background-color: #FFFFFF">
+                <div class="card-body" style="height: 200px; text-align: center">
+                    <h5 class="card-title">Manage Customers</h5>
+                    <img src="~/Customers.png" width="150" height="150">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-header" style="background-color: #A6CD4E !important"></div>
+            <a asp-action="Index" asp-controller="Workers"
+               onmouseover="this.style.backgroundColor='#EAEAEA';"
+               onmouseout="this.style.backgroundColor='#FFFFFF'"
+               style="border-color: transparent; background-color: #FFFFFF">
+                <div class="card-body" style="height: 200px; text-align: center">
+                    <h5 class="card-title">Manage Workers</h5>
+                    <img src="~/Workers.png" width="150" height="150">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

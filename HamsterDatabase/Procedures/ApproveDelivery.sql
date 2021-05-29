@@ -16,4 +16,8 @@ AS
 	SET Orders.Status = 'Delivered'
 	WHERE Orders.OrderId = @orderId
 
+	Update OrderDetails
+	SET OrderDetails.Status = 'Delivered'
+	WHERE OrderDetails.OrderId = @orderId
+
 RETURN 0

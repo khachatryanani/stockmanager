@@ -1,0 +1,154 @@
+﻿@{ this.Layout = "_Layout"; }
+@model List<OrderViewModel>
+
+<a class="btn btn-success" asp-controller="Orders" asp-action="Order">Create Order</a>
+<div><br /></div>
+<div>
+    <input type="button" id="All" class="btn btn-primary text-right" style="background-color: #242E38 !important" onclick="Toggle('All')" value="Show All Orders">
+    <input type="button" id="Accepted" class="btn btn-primary text-right" style="background-color: #E7E7E7 !important; color: #242E38" onclick="Toggle('Accepted')" value="Show Accepted Orders">
+    <input type="button" id="Delivered" class="btn btn-primary text-right" style="        background-color: #E7E7E7 !important; color: #242E38" onclick="Toggle('Delivered')" value="Show Delivered Orders">
+</div>
+<div><br /></div>
+<div class="container">
+    <table id="ordersTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Total Price</th>
+                <th>Received By</th>
+                <th>Received On</th>
+                <th>Status</th>
+                <th>Delivered By</th>
+                <th>Delivered On</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.customerName</td>
+                    <td>@o.totalPrice</td>
+                    <td>@o.receiver</td>
+                    <td>@o.receivedDate</td>
+                    <td>@o.status</td>
+                    <td>@o.deliverer</td>
+                    <td>@o.deliveryDate</td>
+                    <td>
+
+                        <a class="btn btn-primary btn-sm pull-right"
+                           asp-action="OrderItems"
+                           asp-controller="Orders"
+                           asp-route-id="@o.orderId">View Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var isAllToggled = true;
+    var isAcceptedToggled = false;
+    var isDeliveredToggled = false;
+    function Toggle(buttonId) {
+        var button = document.getElementById(buttonId);
+        if (buttonId == "All") {
+            if (isAllToggled) {
+                button.style.backgroundColor = "#E7E7E7";
+                button.style.color = "#242E38";
+
+                isAllToggled = false;
+            }
+            else {
+                button.style.backgroundColor = "#242E38";
+                button.style.color = "#FFFFFF";
+                isAllToggled = true;
+            }
+        }
+        else if (buttonId == "Accepted") {
+            if (isAcceptedToggled) {
+                button.style.backgroundColor = "#E7E7E7";
+                button.style.color = "#242E38";
+                isAcceptedToggled = false;
+            }
+            else {
+                button.style.backgroundColor = "#242E38";
+                button.style.color = "#FFFFFF";
+                isAcceptedToggled = true;
+            }
+        }
+        else if (buttonId == "Delivered") {
+            if (isDeliveredToggled) {
+                button.style.backgroundColor = "#E7E7E7";
+                button.style.color = "#242E38";
+                isDeliveredToggled = false;
+            }
+            else {
+                button.style.backgroundColor = "#242E38";
+                button.style.color = "#FFFFFF";
+                isDeliveredToggled = true;
+            }
+        }
+        Filter();
+    }
+
+    function Filter() {
+        var table = document.getElementById("ordersTable");
+        var rowLength = table.rows.length;
+        if (isAllToggled) {
+            for (var i = 0; i < rowLength; i++) {
+                table.rows.item(i).style.display = "";
+            }
+            return;
+        }
+        else {
+            for (var i = 0; i < rowLength; i++) {
+                table.rows.item(i).style.display = "none";
+            }
+        }
+
+        if (isAcceptedToggled) {
+            for (i = 0; i < rowLength; i++) {
+
+                var cells = table.rows.item(i).cells;
+                if (cells.item(4).innerHTML == "Accepted") {
+                    table.rows.item(i).style.display = "";
+                }
+
+            }
+        }
+        else {
+            for (i = 0; i < rowLength; i++) {
+
+                var cells = table.rows.item(i).cells;
+                if (cells.item(4).innerHTML == "Accepted") {
+                    table.rows.item(i).style.display = "none";
+                }
+
+            }
+
+        }
+
+        if (isDeliveredToggled) {
+            for (i = 0; i < rowLength; i++) {
+
+                var cells = table.rows.item(i).cells;
+                if (cells.item(4).innerHTML == "Delivered") {
+                    table.rows.item(i).style.display = "";
+                }
+
+            }
+        }
+        else {
+            for (i = 0; i < rowLength; i++) {
+
+                var cells = table.rows.item(i).cells;
+                if (cells.item(4).innerHTML == "Delivered") {
+                    table.rows.item(i).style.display = "none";
+                }
+
+            }
+        }
+    }
+</script>

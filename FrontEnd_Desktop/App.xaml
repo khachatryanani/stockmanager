@@ -19,6 +19,9 @@
                 <view:InStockView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:OrdersViewModel}">
+                <view:OrdersView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:OrderViewModel}">
                 <view:OrderView/>
             </DataTemplate>
@@ -28,6 +31,14 @@
 
             <DataTemplate DataType="{x:Type viewModel:StockItemsViewModel}">
                 <view:StockItemsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:OrderItemsViewModel}">
+                <view:OrderItemsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:TemporaryViewModel}">
+                <view:TemporaryView/>
             </DataTemplate>
 
 

@@ -1,0 +1,37 @@
+﻿
+@{ this.Layout = "_Layout"; }
+@model List<StockItemViewModel>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Unit</th>
+                <th>Unit Price</th>
+                <th>Actual Quantity</th>
+                <th>Producted On</th>
+                <th>Stocked On</th>
+                <th>Expired On</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+            <tr>
+                <td>@s.productName</td>
+                <td>@s.unit</td>
+                <td>@s.unitPrice</td>
+                <td>@s.actualQuantity</td>
+                <td>@s.productionDate</td>
+                <td>@s.stockedDate</td>
+                <td>@s.expirationDate</td>
+                <td> <a class="btn btn-primary btn-sm pull-right" style="background-color: #CA3825 !important;
+        color: #ffffff !important"
+                        >Reduce from Stock</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -6,39 +6,44 @@ namespace DataAccess
 {
     public interface IDataRepository
     {
-       
+        // Products
+        void CreateProduct(Product product);
         List<Product> GetProducts();
+        void UpdateProduct(Product product);
+        void DeleteProduct(int id);
 
         //Workers
+        void CreateWorker(Worker worker);
         List<Worker> GetWorkers();
         Worker GetWorker(int id);
-        void DeleteWorker(int id);
         void UpdateWorker(Worker worker);
-        void CreateWorker(Worker worker);
+        void DeleteWorker(int id);
 
         //Customers
+        void CreateCustomer(Customer customer);
         List<Customer> GetCustomers();
         Customer GetCustomer(int id);
-        void CreateCustomer(Customer customer);
         void UpdateCustomer(Customer customer);
 
         //Stocks
+        void CreateStockItem(StockItem stockItem);
         List<Stock> GetStocks();
-        Stock GetStock(int stockId);
         List<StockItem> GetStockItems(int productId);
         StockItem GetStockItem(int itemId);
-        void CreateStockItem(StockItem stockItem);
+        List<StockItem> GetExpiredStockItems();
 
         //Orders
-        List<Order> GetOrders();
-        Order GetOrder(int orderId);
         void CreateOrder(Order order);
+        List<Order> GetOrders(string status);
+        Order GetOrder(int orderId);
         List<Order> GetCustomerOrders(int customerId);
         List<OrderItem> GetOrderItems(int orderId);
         OrderItem GetOrderItem(int itemId);
-        List<Order> GetDeliveryReadyOrders();
-        List<Order> GetDeliveredOrders();
-        void AcceptOrder(int orderId);
-        void ApproveDelivery(int orderId, DateTime deliveryDate, int delivereId);
+        void AcceptOrder(Order order);
+        void ApproveDelivery(Order order);
+        void UpdateOrder(Order order);
+        void UpdateOrderItem(OrderItem orderItem);
+        bool TryAcceptOrder(Order order);
+        bool TryApproveDelivery(Order order);
     }
 }

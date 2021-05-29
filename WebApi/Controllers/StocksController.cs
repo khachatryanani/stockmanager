@@ -23,24 +23,6 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public IEnumerable<StockModel> GetStocks()
-        {
-            return _mapper.Map<IEnumerable<StockModel>>(_dataRep.GetStocks());
-        }
-
-        //[HttpGet("{id:int}")]
-        //public StockModel GetStock(int id)
-        //{
-        //    return _mapper.Map<StockModel>(_dataRep.GetStock(id));
-        //}
-
-        [HttpGet("{id:int}")]
-        public IEnumerable<StockItemModel> GetStockItems(int id)
-        {
-            return _mapper.Map<IEnumerable<StockItemModel>>(_dataRep.GetStockItems(id));
-        }
-
         [HttpPost]
         public IActionResult CreateStockItem([FromBody] StockItemBaseModel stockItem)
         {
@@ -49,5 +31,16 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IEnumerable<StockModel> GetStocks()
+        {
+            return _mapper.Map<IEnumerable<StockModel>>(_dataRep.GetStocks());
+        }
+
+        [HttpGet("{id:int}")]
+        public IEnumerable<StockItemModel> GetStockItems(int id)
+        {
+            return _mapper.Map<IEnumerable<StockItemModel>>(_dataRep.GetStockItems(id));
+        }
     }
 }

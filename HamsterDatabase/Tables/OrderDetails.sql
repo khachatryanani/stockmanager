@@ -10,5 +10,5 @@
 	CONSTRAINT UK_OrderDetail UNIQUE (OrderId, ProductId),
 	CONSTRAINT FK_OOrderId FOREIGN KEY(OrderId) REFERENCES Orders(OrderId) ON DELETE CASCADE,
 	CONSTRAINT FK_OProductId FOREIGN KEY(ProductId) REFERENCES Products(ProductId),
-	CONSTRAINT CHD_Status CHECK ([Status] in ('Accepted', 'Pending', 'Declined'))
+	CONSTRAINT CHD_Status CHECK ([Status] in ('Accepted', 'Pending', 'Delivered', 'Declined'))
 )

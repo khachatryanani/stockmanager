@@ -25,6 +25,11 @@ namespace WebClient
         {
             services.AddControllersWithViews();
             services.AddHttpClient<DataHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
+            services.AddHttpClient<StockHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
+            services.AddHttpClient<OrderHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
+            services.AddHttpClient<ProductHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
+            services.AddHttpClient<WorkerHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
+            services.AddHttpClient<CustomerHttpClient>(opt => opt.BaseAddress = new Uri(Configuration["ApiBaseUrl"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

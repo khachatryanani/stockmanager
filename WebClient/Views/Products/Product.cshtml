@@ -1,0 +1,39 @@
+﻿@model ProductViewModel
+
+<form method="post" asp-controller="Products" asp-action="CreateProduct" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Product Name</label>
+        <input asp-for="name" type="text" class="col-sm-4 form-control" />
+        <span asp-validation-for="name"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Type</label>
+        <select class="col-sm-4 form-control" asp-for="typeId">
+            <option value="1">Milk</option>
+            <option value="2">Yogurt</option>
+            <option value="3">Drink</option>
+            <option value="4">Cheese</option>
+            <option value="5">Cream</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Category</label>
+        <select class="col-sm-4 form-control" asp-for="category">
+            <option value="A">1 week expiration</option>
+            <option value="B">2 weeks expiration</option>
+            <option value="C">3 weeks expiration</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">Unit</label>
+        <select class="col-sm-4 form-control" asp-for="unitId">
+            <option value="1">1kg 4-pack</option>
+            <option value="2">0.25l 12-pack</option>
+            <option value="3">0.5l 8-pack</option>
+            <option value="4">1l 4-pack</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Create Product</button>
+</form>
+<br />
+<a asp-controller="Products" asp-action="Index">< Back to Products</a>

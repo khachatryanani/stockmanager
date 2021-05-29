@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[GetOrders]
 @orderStatus varchar(10) = '%'
 AS
-	SELECT Orders.OrderId, Orders.CustomerId, Customers.CustomerName, SUM(St.Price) as TotalPrice, Orders.ReceivedDate, W1.WorkerId as ReceiverId, W1.FirstName as ReceiverFirstName, W1.LastName as ReceiverLastName, Orders.[Status], Orders.DeliveredDate, W2.WorkerId as DelivererId, W2.FirstName as DelivererFirstName, W2.LastName as DelivererLastName
+	SELECT Orders.OrderId, Orders.CustomerId, Customers.CustomerName, SUM(OrderDetails.Quantity*St.Price) as TotalPrice, Orders.ReceivedDate, W1.WorkerId as ReceiverId, W1.FirstName as ReceiverFirstName, W1.LastName as ReceiverLastName, Orders.[Status], Orders.DeliveredDate, W2.WorkerId as DelivererId, W2.FirstName as DelivererFirstName, W2.LastName as DelivererLastName
 	FROM Orders
 		JOIN Customers ON Orders.CustomerId = Customers.CustomerId
 		JOIN Workers W1 ON W1.WorkerId = Orders.ReceiverId

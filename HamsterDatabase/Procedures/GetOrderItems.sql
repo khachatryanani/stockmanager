@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[GetOrderItems]
 	@orderId int
 AS
-	SELECT OrderDetails.ItemId, OrderDetails.OrderId, Products.ProductName, MeaserementUnits.MeasurementUnit, OrderDetails.Quantity, St.Price, OrderDetails.[Status]
+	SELECT OrderDetails.ItemId, OrderDetails.OrderId, Products.ProductId, Products.ProductName, MeaserementUnits.MeasurementUnit, OrderDetails.Quantity, St.Price, OrderDetails.[Status]
 	FROM OrderDetails
 	JOIN Products ON OrderDetails.ProductId = Products.ProductId
 	JOIN MeaserementUnits ON Products.MeasurementUnit = MeaserementUnits.UnitId

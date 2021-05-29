@@ -2,7 +2,10 @@
 <html xml:lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>SportsStore</title>
+    <title>
+        Hamster
+    </title>
+    <link href="/HamsterLogo.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet" />
 </head>
@@ -17,18 +20,25 @@
             </div>
         </div>
     </div>
-    <div class="row m-1 p-1">
+    <div class="row m-0 p-1">
         <div id="categories" class="col-3">
             <a class="btn btn-block btn-outline-secondary"
                onmouseover="this.style.backgroundColor='#FF4C00';"
                onmouseout="this.style.backgroundColor=''"
-               asp-action="Index" asp-controller="Stocks">Stock</a>
+               asp-action="Index" asp-controller="Stocks">Stocks</a>
             <a class="btn btn-block btn-outline-secondary"
                onmouseover="this.style.backgroundColor='#FF4C00';"
-               onmouseout="this.style.backgroundColor=''">Orders</a>
+               onmouseout="this.style.backgroundColor=''"
+               asp-action="Index" asp-controller="Orders">Orders</a>
             <a class="btn btn-block btn-outline-secondary"
                onmouseover="this.style.backgroundColor='#FF4C00';"
-               onmouseout="this.style.backgroundColor=''">Delivery</a>
+               onmouseout="this.style.backgroundColor=''"
+               asp-action="Index" asp-controller="ExpiredStock">Expired Stock</a>
+            <a class="btn btn-block btn-outline-secondary"
+               style="background-color: #242E38 !important; color: #FFFFFF !important"
+               onmouseover="this.style.backgroundColor='#FF4C00';"
+               onmouseout="this.style.backgroundColor='#242E38'"
+               asp-action="Index" asp-controller="Administration">Administration</a>
         </div>
         <div class="col-9">
             @RenderBody()

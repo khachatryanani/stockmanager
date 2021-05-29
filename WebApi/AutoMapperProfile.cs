@@ -85,6 +85,8 @@ namespace WebApi
             CreateMap<StockItemBaseModel, StockItem>()
                                .ForPath(dest => dest.StockedProduct.ProductId,
                                          opt => opt.MapFrom(src => src.ProductId))
+                               .ForPath(dest => dest.StockedProduct.Price,
+                                         opt => opt.MapFrom(src => src.UnitPrice))
                               .ForPath(dest => dest.Quantity,
                                          opt => opt.MapFrom(src => src.Quantity))
                               .ForPath(dest => dest.Worker.WorkerId,
@@ -105,6 +107,23 @@ namespace WebApi
                                          opt => opt.MapFrom(src => src.ReceiverId))
                               .ForPath(dest => dest.OrderItemList,
                                          opt => opt.MapFrom(src => src.OrderItems));
+            CreateMap<OrderModel, Order>()
+                .ForPath(dest => dest.Customer.CustomerId,
+                                         opt => opt.MapFrom(src => src.CustomerId))
+                            .ForPath(dest => dest.Customer.Name,
+                                        opt => opt.MapFrom(src => src.CustomerName))
+                            .ForPath(dest => dest.TotalPrice,
+                                        opt => opt.Ignore())
+                            .ForPath(dest => dest.ReceivedDate,
+                                       opt => opt.MapFrom(src => DateTime.Parse(src.ReceivedDate)))
+                             .ForPath(dest => dest.Receiver.WorkerId,
+                                        opt => opt.MapFrom(src => src.ReceiverId))
+                             .ForPath(dest => dest.DeliveryDate,
+                                       opt => opt.MapFrom(src => src.DeliveryDate == string.Empty ? default(DateTime) : DateTime.Parse(src.DeliveryDate)))
+                             .ForPath(dest => dest.Deliverer.WorkerId,
+                                        opt => opt.MapFrom(src => src.DelivererId))
+                              .ForPath(dest => dest.Status,
+                                        opt => opt.MapFrom(src => src.Status));
         }
     }
 }

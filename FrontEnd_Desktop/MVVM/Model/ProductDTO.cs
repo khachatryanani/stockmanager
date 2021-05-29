@@ -12,7 +12,7 @@ namespace FrontEnd_Desktop.MVVM.Model
         public char Category { get; set; }
         public string Type { get; set; }
         public string Unit { get; set; }
-        public double Price { get; set; }
+        public string Price { get; set; }
 
         public override string ToString()
         {

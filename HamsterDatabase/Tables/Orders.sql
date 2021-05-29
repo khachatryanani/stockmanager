@@ -12,7 +12,6 @@
 	CONSTRAINT FK_CustomerId FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),
 	CONSTRAINT FK_OAcceptorId FOREIGN KEY (ReceiverId) REFERENCES Workers(WorkerId),
 	CONSTRAINT FK_ODelivererId FOREIGN KEY (DelivererId) REFERENCES Workers(WorkerId),
-	CONSTRAINT CH_Dates CHECK(ReceivedDate <= DeliveredDate),
 	CONSTRAINT CHO_Status CHECK ([Status] in ('Accepted', 'Pending', 'Declined', 'Delivered'))
 
 )
